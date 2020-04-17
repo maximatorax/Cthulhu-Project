@@ -45,7 +45,6 @@ public class CameraController : MonoBehaviour
         {
             transform.LookAt(Player.transform);
         }
-
     }
 
 }

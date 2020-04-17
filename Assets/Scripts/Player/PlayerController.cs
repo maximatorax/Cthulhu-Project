@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,16 +10,19 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 240.0f;
     public float gravity = 20.0f;
     public Animator playerAnimator;
+    public List<Attack> attackList;
 
     private Vector3 moveDirection = Vector3.zero;
     private Vector3 rotation;
     private CharacterController charController;
+    private PlayerAttackSystem attackSystem;
 
     // Start is called before the first frame update
     void Start()
     {
         charController = GetComponent<CharacterController>();
         playerAnimator = gameObject.GetComponent<Animator>();
+        attackSystem = GetComponent<PlayerAttackSystem>();
     }
 
     // Update is called once per frame
@@ -61,5 +65,7 @@ public class PlayerController : MonoBehaviour
         moveDirection.y -= gravity * Time.deltaTime;
 
         charController.Move(moveDirection * Time.deltaTime);
+
     }
+
 }
