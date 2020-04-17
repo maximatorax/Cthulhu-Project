@@ -11,6 +11,10 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     {
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
+        foreach (Attack attack in Player.attackList)
+        {
+            attack.canDo = true;
+        }
     }
 
     void Update()
@@ -18,6 +22,23 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         if (Input.GetButton("Fire1"))
         {
             Attack(Player.attackList[0]);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Attack(GetAttack(1));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Attack(GetAttack(2));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Attack(GetAttack(3));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Attack(GetAttack(4));
         }
     }
 
@@ -32,8 +53,13 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     {
         attack.canDo = false;
         playerAnimator.SetTrigger(attack.triggerName);
-        Debug.Log(attack.damage);
+        Debug.Log(attack);
         yield return new WaitForSeconds(attack.cooldown);
         attack.canDo = true;
+    }
+
+    public Attack GetAttack(int attackNumber)
+    {
+        return Player.attackList[attackNumber];
     }
 }

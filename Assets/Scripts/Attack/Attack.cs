@@ -8,7 +8,7 @@ public class Attack : ScriptableObject
 {
     public int damage;
     public float cooldown;
-    public bool canDo = true;
+    public bool canDo;
     public String triggerName;
 
     public enum attackType

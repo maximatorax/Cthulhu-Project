@@ -14,14 +14,21 @@ public class CameraController : MonoBehaviour
     public bool RotateAroundPlayer = false;
     public float RotationsSpeed = 5.0f;
 
+
     // Start is called before the first frame update
     void Start()
     {
         _offset = transform.position - Player.transform.position;
     }
 
+    void Update()
+    {
+ 
+    }
+
     void LateUpdate()
     {
+
         if (Input.GetButtonDown("Fire3"))
         {
             RotateAroundPlayer = true;
