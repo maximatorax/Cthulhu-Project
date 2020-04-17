@@ -6,10 +6,12 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5.0f;
     public float jumpSpeed = 8.0f;
+    public float rotationSpeed = 240.0f;
     public float gravity = 20.0f;
     public Animator playerAnimator;
 
     private Vector3 moveDirection = Vector3.zero;
+    private Vector3 rotation;
     private CharacterController charController;
 
     // Start is called before the first frame update
@@ -23,16 +25,32 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
+        // Get Input for axis
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
+        // Calculate the forward vector
+        Vector3 camForward_Dir = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 move = v * camForward_Dir + h * Camera.main.transform.right;
+
+        if (move.magnitude > 1f) move.Normalize();
+
+        // Calculate the rotation for the player
+        move = transform.InverseTransformDirection(move);
+
+        // Get Euler angles
+        float turnAmount = Mathf.Atan2(move.x, move.z);
+
+        transform.Rotate(0, turnAmount * rotationSpeed * Time.deltaTime, 0);
+
         if (charController.isGrounded)
         {
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+            moveDirection = transform.forward * move.magnitude;
             moveDirection *= speed;
-            if (moveDirection != Vector3.zero)
-            {
-                transform.rotation = Quaternion.LookRotation(moveDirection);
-            }
+
             playerAnimator.SetFloat("VerticalSpeed", moveDirection.z);
             playerAnimator.SetFloat("HorizontalSpeed", moveDirection.x);
+
             if (Input.GetButton("Jump"))
             {
                 playerAnimator.SetTrigger("Jump");

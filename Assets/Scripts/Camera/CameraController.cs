@@ -7,11 +7,12 @@ public class CameraController : MonoBehaviour
 
     public GameObject Player;
     private Vector3 _offset;
-    /*public float speedH = 2.0f;
-    public float speedV = 2.0f;
 
-    private float yaw = 0.0f;
-    private float pitch = 0.0f;*/
+    [Range(0.01f, 1.0f)] public float SmoothFactor = 0.5f;
+
+    public bool LookAtPlayer = true;
+    public bool RotateAroundPlayer = false;
+    public float RotationsSpeed = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,17 +20,32 @@ public class CameraController : MonoBehaviour
         _offset = transform.position - Player.transform.position;
     }
 
-    void Update()
-    {
-        /*yaw += speedH * Input.GetAxis("Mouse X");
-        pitch -= speedV * Input.GetAxis("Mouse Y");
-        transform.eulerAngles = new Vector3(pitch,yaw,0.0f);*/
-    }
-
-    // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = Player.transform.position + _offset;
-        
+        if (Input.GetButtonDown("Fire3"))
+        {
+            RotateAroundPlayer = true;
+        }
+
+        if (Input.GetButtonUp("Fire3"))
+        {
+            RotateAroundPlayer = false;
+        }
+
+        if (RotateAroundPlayer)
+        {
+            Quaternion camTurnAngle = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * RotationsSpeed, Vector3.up);
+            _offset = camTurnAngle * _offset;
+        }
+
+        Vector3 newPos = Player.transform.position + _offset;
+        transform.position = Vector3.Slerp(transform.position, newPos, SmoothFactor);
+
+        if (LookAtPlayer || RotateAroundPlayer)
+        {
+            transform.LookAt(Player.transform);
+        }
+
     }
+
 }
