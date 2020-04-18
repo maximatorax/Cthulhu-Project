@@ -6,6 +6,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 {
     public Animator playerAnimator;
     public PlayerController Player;
+    public LayerMask attackLayer;
 
     void Start()
     {
@@ -45,7 +46,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     public void Attack(Attack attack)
     {
         if(!attack.canDo) return;
-
         StartCoroutine(doAttack(attack));
     }
 
@@ -53,7 +53,15 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     {
         attack.canDo = false;
         playerAnimator.SetTrigger(attack.triggerName);
-        Debug.Log(attack);
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, attack.range, attackLayer))
+        {
+            hit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().TakeDamage(attack.damage);
+        }
+        else
+        {
+            Debug.Log("No Hit");
+        }
         yield return new WaitForSeconds(attack.cooldown);
         attack.canDo = true;
     }

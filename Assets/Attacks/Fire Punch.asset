@@ -16,5 +16,6 @@ MonoBehaviour:
   cooldown: 3
   canDo: 1
   triggerName: Attack
+  range: 5
   type: 0
   element: 1

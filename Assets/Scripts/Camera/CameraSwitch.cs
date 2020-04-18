@@ -8,6 +8,12 @@ public class CameraSwitch : MonoBehaviour
     public GameObject FirstPersonCam;
     public int CamMode;
 
+
+    private void Start()
+    {
+        CamMode = 0;
+        StartCoroutine(CamChange());
+    }
     // Update is called once per frame
     void Update()
     {

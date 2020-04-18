@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff2ba836eb98542b26b954695cd9c9, type: 3}
   m_Name: Normal Punch
   m_EditorClassIdentifier: 
-  damage: 10
+  damage: 100
   cooldown: 2
   canDo: 1
   triggerName: Attack
+  range: 1.5
   type: 0
   element: 0

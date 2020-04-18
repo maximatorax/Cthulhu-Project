@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IHealthSystem
 {
+
     void TakeDamage(int damage);
     IEnumerator doDamage(int damage);
     void Die();

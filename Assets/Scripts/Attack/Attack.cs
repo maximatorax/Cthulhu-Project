@@ -10,6 +10,7 @@ public class Attack : ScriptableObject
     public float cooldown;
     public bool canDo;
     public String triggerName;
+    public float range;
 
     public enum attackType
     {
