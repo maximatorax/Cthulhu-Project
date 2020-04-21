@@ -38,6 +38,7 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
 
     public IEnumerator doDamage(int damage)
     {
+        enemyAnimator.SetTrigger("GetHit");
         isInvincible = true;
         currentHealth -= damage;
         if (currentHealth <= 0)
@@ -50,7 +51,7 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
 
     public void Die()
     {
-        enemyAnimator.enabled = false;
+        enemyAnimator.SetTrigger("Die");
         enemy.GetComponentInChildren<CapsuleCollider>().enabled = false;
     }
 

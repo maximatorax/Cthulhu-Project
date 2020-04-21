@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7eff2ba836eb98542b26b954695cd9c9, type: 3}
-  m_Name: Lightning Punch
+  m_Name: Rock Punch
   m_EditorClassIdentifier: 
-  damage: 25
-  cooldown: 5
+  damage: 30
+  cooldown: 6
   canDo: 1
   triggerName: Attack
-  range: 5
+  range: 1
+  width: {x: 1, y: 1, z: 1}
+  attackIcon: {fileID: 21300000, guid: f9f79eba23f9fb442b0e0111c3e45115, type: 3}
   type: 0
-  element: 4
+  element: 7

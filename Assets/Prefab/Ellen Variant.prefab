@@ -122,8 +122,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 59da5929b02f0cd4cba1e454cc510e00, type: 2}
   - {fileID: 11400000, guid: 280072d5b91ab6449a91071922268a24, type: 2}
   - {fileID: 11400000, guid: 89003829750448f4c9aa313a383b8719, type: 2}
-  - {fileID: 11400000, guid: 4e211cbc4618d164b9685a72e8a9760e, type: 2}
   - {fileID: 11400000, guid: 9c5c31dcbe641ad47961ca008132b98c, type: 2}
+  - {fileID: 11400000, guid: 4e211cbc4618d164b9685a72e8a9760e, type: 2}
 --- !u!114 &1461847352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +138,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerAnimator: {fileID: 0}
   Player: {fileID: 0}
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  selectedAttack: {fileID: 0}
+  currentAttack: 0
+  attackIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1461847353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +190,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100166, guid: a5674d01884853d4e8f2386a171e14d9, type: 3}
       propertyPath: m_Name
-      value: Ellen
+      value: Ellen Variant
       objectReference: {fileID: 0}
     - target: {fileID: 100166, guid: a5674d01884853d4e8f2386a171e14d9, type: 3}
       propertyPath: m_TagString
