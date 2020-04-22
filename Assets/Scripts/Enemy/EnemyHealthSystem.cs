@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
 {
 
     public int currentHealth;
-
     public int maxHealth;
-    public EnemyController enemyController;
-    public Animator enemyAnimator;
-    public GameObject enemy;
     public bool isInvincible;
     public int invincibleTime;
+    public int expToGive;
+    public Scrollbar HealthBar;
+    public TMP_Text HealthBarText;
+
+    private EnemyController enemyController;
+    private Animator enemyAnimator;
+    private GameObject enemy;
+    private float YOffset;
+    private Vector3 wantedPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,12 +29,17 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
         currentHealth = maxHealth;
         isInvincible = false;
         enemyController = gameObject.GetComponent<EnemyController>();
+        HealthBarText = HealthBar.GetComponentInChildren<TMP_Text>();
+        YOffset = (HealthBar.transform.position.y - enemy.transform.position.y)/2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        HealthBar.size = (float) currentHealth / (float) maxHealth;
+        HealthBarText.text = currentHealth + "/" + maxHealth;
+        wantedPosition = Camera.main.WorldToScreenPoint(enemy.transform.position);
+        HealthBar.transform.position = wantedPosition + new Vector3(0, YOffset, 0);
     }
 
     public void TakeDamage(int damage)
@@ -53,6 +66,8 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
     {
         enemyAnimator.SetTrigger("Die");
         enemy.GetComponentInChildren<CapsuleCollider>().enabled = false;
+        HealthBar.gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatsSystem>().exp += expToGive;
     }
 
     public void Heal(int healing)
@@ -62,5 +77,10 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
         {
             currentHealth = maxHealth;
         }
+    }
+
+    public void UpdateHealth()
+    {
+        return;
     }
 }

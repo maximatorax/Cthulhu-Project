@@ -9,4 +9,5 @@ public interface IHealthSystem
     IEnumerator doDamage(int damage);
     void Die();
     void Heal(int healing);
+    void UpdateHealth();
 }

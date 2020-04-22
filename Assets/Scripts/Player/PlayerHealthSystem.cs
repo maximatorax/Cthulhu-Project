@@ -1,25 +1,34 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
 {
+    private Animator playerAnimator;
+    private PlayerController Player;
+    private PlayerStatsSystem playerStatsSystem;
 
-    public Animator playerAnimator;
-    public PlayerController Player;
     public bool isInvincible;
     public int invincibleTime;
 
     public int currentHealth;
 
-    public int maxHealth = 100;
+    public int maxHealth;
+
+    public Scrollbar HealthBar;
+    private TMP_Text HealthText;
 
     // Start is called before the first frame update
     void Start()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
+        playerStatsSystem = gameObject.GetComponent<PlayerStatsSystem>();
+        HealthText = HealthBar.GetComponentInChildren<TMP_Text>();
+        maxHealth = playerStatsSystem.Constitution * 100;
         currentHealth = maxHealth;
         isInvincible = false;
     }
@@ -27,7 +36,8 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     // Update is called once per frame
     void Update()
     {
-        
+        HealthBar.size = (float)currentHealth / (float)maxHealth;
+        HealthText.text = currentHealth + "/" + maxHealth;
     }
 
     public void TakeDamage(int damage)
@@ -61,5 +71,11 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
         {
             currentHealth = maxHealth;
         }
+    }
+
+    public void UpdateHealth()
+    {
+        maxHealth = playerStatsSystem.Constitution * 100;
+        currentHealth = maxHealth;
     }
 }

@@ -12,7 +12,7 @@ public class Attack : ScriptableObject
     public bool canDo;
     public String triggerName;
     public float range;
-    public Vector3 width;
+    public float width;
     public Sprite attackIcon;
 
     public enum attackType

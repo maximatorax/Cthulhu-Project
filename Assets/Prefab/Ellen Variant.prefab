@@ -136,8 +136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fa1b530d988c84caae5af1ca25ebed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 0}
-  Player: {fileID: 0}
   attackLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -161,12 +159,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23050ac8e494edd45af1ecd8e91b2613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerAnimator: {fileID: 0}
-  Player: {fileID: 0}
   isInvincible: 0
   invincibleTime: 2
   currentHealth: 0
   maxHealth: 100
+--- !u!114 &1378196617732423471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989251871863596869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d81ae8ea7c79f2a4cab8e1a3a65dca61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  Strength: 1
+  Agility: 1
+  Constitution: 1
+  Wisdom: 1
+  Intelligence: 1
+  StatPoints: 0
+  leveling: 0
+  exp: 0
+  expToLevel: 100
+  StrengthText: {fileID: 0}
+  AgilityText: {fileID: 0}
+  ConstitutionText: {fileID: 0}
+  WisdomText: {fileID: 0}
+  IntelligenceText: {fileID: 0}
+  StatPointsText: {fileID: 0}
+  LevelUpPanel: {fileID: 0}
+  LevelUpButton: {fileID: 0}
 --- !u!136 &2000867885
 CapsuleCollider:
   m_ObjectHideFlags: 0

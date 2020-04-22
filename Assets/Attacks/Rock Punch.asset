@@ -17,7 +17,7 @@ MonoBehaviour:
   canDo: 1
   triggerName: Attack
   range: 1
-  width: {x: 1, y: 1, z: 1}
+  width: 0.1
   attackIcon: {fileID: 21300000, guid: f9f79eba23f9fb442b0e0111c3e45115, type: 3}
   type: 0
   element: 7

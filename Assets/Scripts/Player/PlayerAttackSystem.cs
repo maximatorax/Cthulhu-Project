@@ -6,17 +6,23 @@ using UnityEngine.UI;
 
 public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 {
-    public Animator playerAnimator;
-    public PlayerController Player;
+    private Animator playerAnimator;
+    private PlayerController Player;
+    private CharacterController charController;
+    private PlayerStatsSystem playerStatsSystem;
+
     public LayerMask attackLayer;
     public Attack selectedAttack;
     public int currentAttack;
     public List<Image> attackIcons;
 
+
     void Start()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
+        charController = gameObject.GetComponent<CharacterController>();
+        playerStatsSystem = gameObject.GetComponent<PlayerStatsSystem>();
         selectedAttack = Player.attackList[0];
         currentAttack = 0;
         foreach (Attack attack in Player.attackList)
@@ -35,6 +41,8 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Update()
     {
+        if(playerStatsSystem.leveling)return;
+
         if (Input.GetButton("Fire1"))
         {
             Attack(selectedAttack);
@@ -104,9 +112,10 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     {
         attack.canDo = false;
         playerAnimator.SetTrigger(attack.triggerName);
+        Vector3 p1 = transform.position + charController.center + Vector3.up * -charController.height * 0.5f;
+        Vector3 p2 = p1 + Vector3.up * charController.height;
         RaycastHit[] hit;
-        hit = Physics.BoxCastAll(transform.position + new Vector3(0, transform.localScale.y / 2, transform.localScale.z), attack.width / 2, transform.TransformDirection(Vector3.forward),
-            Quaternion.identity, attack.range, attackLayer);
+        hit = Physics.CapsuleCastAll(p1, p2, attack.width, transform.forward, attack.range, attackLayer);
         
             foreach (RaycastHit enemy in hit)
             {
@@ -122,10 +131,10 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         return Player.attackList[attackNumber];
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + new Vector3(0, transform.localScale.y / 2, 0), transform.forward * selectedAttack.range);
-        Gizmos.DrawCube(transform.position + new Vector3(0, transform.localScale.y / 2, transform.localScale.z), selectedAttack.width);
+        Gizmos.DrawRay(transform.position + charController.center + Vector3.up * -charController.height * 0.5f, transform.forward * selectedAttack.range);
+        Gizmos.DrawRay((transform.position + charController.center + Vector3.up * -charController.height * 0.5f) + Vector3.up * charController.height, transform.forward * selectedAttack.range);
     }
 }

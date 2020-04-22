@@ -13,16 +13,13 @@ public class PlayerController : MonoBehaviour
     public List<Attack> attackList;
 
     private Vector3 moveDirection = Vector3.zero;
-    private Vector3 rotation;
     private CharacterController charController;
-    private PlayerAttackSystem attackSystem;
 
     // Start is called before the first frame update
     void Start()
     {
-        charController = GetComponent<CharacterController>();
+        charController = gameObject.GetComponent<CharacterController>();
         playerAnimator = gameObject.GetComponent<Animator>();
-        attackSystem = GetComponent<PlayerAttackSystem>();
     }
 
     // Update is called once per frame
