@@ -6,4 +6,5 @@ public interface IAttackSystem
 {
     void Attack(Attack attack);
     IEnumerator doAttack(Attack attack);
+    int CalculateDamage(Attack attack, RaycastHit enemyHit);
 }

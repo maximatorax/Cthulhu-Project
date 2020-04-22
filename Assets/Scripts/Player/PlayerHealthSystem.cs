@@ -11,6 +11,9 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     private PlayerController Player;
     private PlayerStatsSystem playerStatsSystem;
 
+    public Attack.attackElement elementResistance;
+    public Attack.attackElement elementWeakness;
+
     public bool isInvincible;
     public int invincibleTime;
 
