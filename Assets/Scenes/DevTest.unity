@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 6b1b142a9a157dc4ea697907c2d33be5,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -892,10 +893,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnersList:
   - {fileID: 1918026131}
+  - {fileID: 1814603613}
   EnemiesList:
   - {fileID: 6953886233183584200, guid: 66abeae618d9f4c48b0e768d654256ec, type: 3}
   Player: {fileID: 3989251873153377586}
-  nbOfEnemyWanted: 1
+  nbOfEnemyWanted: 2
 --- !u!4 &1403251214
 Transform:
   m_ObjectHideFlags: 0

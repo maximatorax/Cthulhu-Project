@@ -18,14 +18,12 @@ public class EnemySpawner : MonoBehaviour
         if(nbOfEnemy >= nbOfEnemyWanted) return;
         foreach (Transform spawner in SpawnersList)
         {
-            if (spawner != null)
+            if (spawner == null) continue;
+            if (Vector3.Distance(Player.transform.position, spawner.position) < 5)
             {
-                if (Vector3.Distance(Player.transform.position, spawner.position) < 5)
-                {
-                    Instantiate(EnemiesList[0], spawner.position, Quaternion.identity);
-                    Destroy(spawner.gameObject);
-                    nbOfEnemy++;
-                }
+                Instantiate(EnemiesList[0], spawner.position, Quaternion.identity);
+                Destroy(spawner.gameObject);
+                nbOfEnemy++;
             }
         }
     }
