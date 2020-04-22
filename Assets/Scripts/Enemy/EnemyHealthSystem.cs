@@ -12,6 +12,8 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
     public bool isInvincible;
     public int invincibleTime;
     public int expToGive;
+    public Attack.attackElement elementResistance;
+    public Attack.attackElement elementWeakness;
     public Scrollbar HealthBar;
     public TMP_Text HealthBarText;
 

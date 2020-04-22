@@ -11,6 +11,8 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     private CharacterController charController;
     private PlayerStatsSystem playerStatsSystem;
 
+    private bool started = false;
+
     public LayerMask attackLayer;
     public Attack selectedAttack;
     public int currentAttack;
@@ -19,6 +21,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Start()
     {
+        started = true;
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
         charController = gameObject.GetComponent<CharacterController>();
@@ -119,11 +122,41 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         
             foreach (RaycastHit enemy in hit)
             {
-                enemy.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().TakeDamage(attack.damage);
+                enemy.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().TakeDamage(CalculateDamage(attack, enemy));
             }
             
         yield return new WaitForSeconds(attack.cooldown);
         attack.canDo = true;
+    }
+
+    public int CalculateDamage(Attack attack, RaycastHit enemyHit)
+    {
+        int returnedDamage = attack.damage;
+
+        if (attack.type == global::Attack.attackType.Physical)
+        {
+            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Strength) * returnedDamage);
+        }
+        else if (attack.type == global::Attack.attackType.Magical)
+        {
+            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Intelligence) * returnedDamage);
+        }
+        else if (attack.type == global::Attack.attackType.Special)
+        {
+            returnedDamage = returnedDamage * ((playerStatsSystem.Strength + playerStatsSystem.Intelligence) * returnedDamage);
+        }
+
+        if (attack.element == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementResistance)
+        {
+            returnedDamage = returnedDamage / 2;
+        }
+        else if (attack.element ==
+                 enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementWeakness)
+        {
+            returnedDamage = returnedDamage * 2;
+        }
+
+        return returnedDamage;
     }
 
     public Attack GetAttack(int attackNumber)
@@ -133,6 +166,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void OnDrawGizmos()
     {
+        if(!started)return;
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position + charController.center + Vector3.up * -charController.height * 0.5f, transform.forward * selectedAttack.range);
         Gizmos.DrawRay((transform.position + charController.center + Vector3.up * -charController.height * 0.5f) + Vector3.up * charController.height, transform.forward * selectedAttack.range);
