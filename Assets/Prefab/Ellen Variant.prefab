@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpSpeed: 17
-  rotationSpeed: 240
+  rotationSpeed: 180
   gravity: 20
   playerAnimator: {fileID: 0}
   attackList:
@@ -159,6 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23050ac8e494edd45af1ecd8e91b2613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  elementResistance: 0
+  elementWeakness: 0
   isInvincible: 0
   invincibleTime: 2
   currentHealth: 0
