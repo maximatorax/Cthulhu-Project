@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -209,6 +208,7 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         }
         Time.timeScale = 1;
         LevelUpPanel.SetActive(false);
+        level++;
         PlayerHealthSystem.UpdateHealth();
     }
 
