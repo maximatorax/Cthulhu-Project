@@ -114,6 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  sprintMultiplier: 2
+  isSprinting: 0
   jumpSpeed: 17
   rotationSpeed: 180
   gravity: 20
@@ -147,6 +149,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  mana: 0
+  maxMana: 100
+  manaRegenRate: 3
+  stamina: 0
+  maxStamina: 100
+  staminaRegenRate: 3
+  isRegenStamina: 0
+  isRegenMana: 0
 --- !u!114 &1461847353
 MonoBehaviour:
   m_ObjectHideFlags: 0

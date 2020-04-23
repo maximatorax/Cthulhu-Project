@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +10,34 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     private PlayerController Player;
     private CharacterController charController;
     private PlayerStatsSystem playerStatsSystem;
-
+    private PlayerHealthSystem playerHealthSystem;
     private bool started = false;
 
     public LayerMask attackLayer;
     public Attack selectedAttack;
     public int currentAttack;
     public List<Image> attackIcons;
+
+    public int mana;
+    public int maxMana = 100;
+    public int manaRegenRate;
+    [Range(0.1f, 3)]
+    public float manaRegenTime;
+    public int stamina;
+    public int maxStamina = 100;
+    public int staminaRegenRate;
+    [Range(0.1f, 3)]
+    public float staminaRegenTime;
+    [HideInInspector]
+    public bool isRegenStamina = false;
+    [HideInInspector]
+    public bool isRegenMana = false;
+
+    public Scrollbar ManaBar;
+    private TMP_Text ManaText;
+    public Scrollbar StaminaBar;
+    private TMP_Text StaminaText;
+
 
 
     void Start()
@@ -26,6 +47,11 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         Player = gameObject.GetComponent<PlayerController>();
         charController = gameObject.GetComponent<CharacterController>();
         playerStatsSystem = gameObject.GetComponent<PlayerStatsSystem>();
+        playerHealthSystem = gameObject.GetComponent<PlayerHealthSystem>();
+        ManaText = ManaBar.GetComponentInChildren<TMP_Text>();
+        StaminaText = StaminaBar.GetComponentInChildren<TMP_Text>();
+        mana = maxMana;
+        stamina = maxStamina;
         selectedAttack = Player.attackList[0];
         currentAttack = 0;
         foreach (Attack attack in Player.attackList)
@@ -39,12 +65,26 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         }
 
         attackIcons[currentAttack].color = new Color(attackIcons[currentAttack].color.r, attackIcons[currentAttack].color.g, attackIcons[currentAttack].color.b, 1);
-
     }
 
     void Update()
     {
         if(playerStatsSystem.leveling)return;
+
+        if (stamina < maxStamina && !isRegenStamina)
+        {
+            StartCoroutine(staminaRegen());
+        }
+
+        if (mana < maxMana && !isRegenMana)
+        {
+            StartCoroutine(manaRegen());
+        }
+
+        ManaBar.size = (float)mana / (float)maxMana;
+        ManaText.text = mana + "/" + maxMana;
+        StaminaBar.size = (float)stamina / (float)maxStamina;
+        StaminaText.text = stamina + "/" + maxStamina;
 
         if (Input.GetButton("Fire1"))
         {
@@ -108,11 +148,35 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     public void Attack(Attack attack)
     {
         if(!attack.canDo) return;
+        if (attack.resssourceUsed == global::Attack.ressource.Mana && attack.ressourceCost > mana)
+        {
+            Debug.Log("Not enough mana!");
+            return;
+        }
+        else if (attack.resssourceUsed == global::Attack.ressource.Stamina && attack.ressourceCost > stamina)
+        {
+            Debug.Log("Not enough stamina!");
+            return;
+        }
+        else if (attack.resssourceUsed == global::Attack.ressource.Health &&
+                 attack.ressourceCost > playerHealthSystem.currentHealth)
+        {
+            Debug.Log("Not enough life!");
+            return;
+        }
+
         StartCoroutine(doAttack(attack));
     }
 
     public IEnumerator doAttack(Attack attack)
     {
+        if (attack.resssourceUsed == global::Attack.ressource.Stamina)
+            stamina -= attack.ressourceCost;
+        else if (attack.resssourceUsed == global::Attack.ressource.Mana)
+            mana -= attack.ressourceCost;
+        else if (attack.resssourceUsed == global::Attack.ressource.Health)
+            playerHealthSystem.currentHealth -= attack.ressourceCost;
+
         attack.canDo = false;
         playerAnimator.SetTrigger(attack.triggerName);
         Vector3 p1 = transform.position + charController.center + Vector3.up * -charController.height * 0.5f;
@@ -162,6 +226,40 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     public Attack GetAttack(int attackNumber)
     {
         return Player.attackList[attackNumber];
+    }
+
+    IEnumerator manaRegen()
+    {
+        isRegenMana = true;
+        yield return new WaitForSeconds(2.0f);
+        while (mana < maxMana)
+        {
+            mana += (int)(((float)manaRegenRate /100)*(float)maxMana);
+            if (mana > maxMana)
+            {
+                mana = maxMana;
+            }
+            yield return new WaitForSeconds(manaRegenTime);
+        }
+
+        isRegenMana = false;
+    }
+
+    IEnumerator staminaRegen()
+    {
+        isRegenStamina = true;
+        yield return new WaitForSeconds(2.0f);
+        while (stamina < maxStamina)
+        {
+            stamina += (int)(((float)staminaRegenRate/100)*(float)maxStamina);
+            if (stamina > maxStamina)
+            {
+                stamina = maxStamina;
+            }
+            yield return new WaitForSeconds(staminaRegenTime);
+        }
+
+        isRegenStamina = false;
     }
 
     void OnDrawGizmos()

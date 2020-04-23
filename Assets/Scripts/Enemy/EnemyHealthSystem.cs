@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +16,6 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
     public Scrollbar HealthBar;
     public TMP_Text HealthBarText;
 
-    private EnemyController enemyController;
     private Animator enemyAnimator;
     private GameObject enemy;
     private float YOffset;
@@ -30,7 +28,6 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
         enemy = gameObject;
         currentHealth = maxHealth;
         isInvincible = false;
-        enemyController = gameObject.GetComponent<EnemyController>();
         HealthBarText = HealthBar.GetComponentInChildren<TMP_Text>();
         YOffset = (HealthBar.transform.position.y - enemy.transform.position.y)/2;
     }
@@ -83,6 +80,6 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
 
     public void UpdateHealth()
     {
-        return;
+        currentHealth = maxHealth;
     }
 }
