@@ -515,7 +515,7 @@ MonoBehaviour:
   maxHealth: 100
   isInvincible: 0
   invincibleTime: 0
-  expToGive: 500
+  expToGive: 100
   elementResistance: 1
   elementWeakness: 2
   HealthBar: {fileID: 218988536}

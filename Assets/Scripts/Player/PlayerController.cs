@@ -6,6 +6,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5.0f;
+    public float sprintMultiplier = 2.0f;
+    public bool isSprinting = false;
     public float jumpSpeed = 8.0f;
     public float rotationSpeed = 240.0f;
     public float gravity = 20.0f;
@@ -14,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController charController;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -44,10 +46,20 @@ public class PlayerController : MonoBehaviour
 
         transform.Rotate(0, turnAmount * rotationSpeed * Time.deltaTime, 0);
 
+
         if (charController.isGrounded)
         {
             moveDirection = transform.forward * move.magnitude;
-            moveDirection *= speed;
+            if (Input.GetButton("Sprint"))
+            {
+                moveDirection *= speed * sprintMultiplier;
+                isSprinting = true;
+            }
+            else
+            {
+                moveDirection *= speed;
+                isSprinting = false;
+            }
 
             playerAnimator.SetFloat("VerticalSpeed", moveDirection.z);
             playerAnimator.SetFloat("HorizontalSpeed", moveDirection.x);
@@ -64,5 +76,6 @@ public class PlayerController : MonoBehaviour
         charController.Move(moveDirection * Time.deltaTime);
 
     }
+
 
 }
