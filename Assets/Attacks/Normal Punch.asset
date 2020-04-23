@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   cooldown: 2
-  canDo: 1
+  canDo: 0
   triggerName: Attack
   range: 1
   width: 0.1
@@ -22,4 +22,4 @@ MonoBehaviour:
   type: 0
   element: 0
   resssourceUsed: 1
-  ressourceCost: 50
+  ressourceCost: 10

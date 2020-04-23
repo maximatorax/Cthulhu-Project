@@ -38,7 +38,8 @@ public class Attack : ScriptableObject
     public enum ressource
     {
         Mana,
-        Stamina
+        Stamina,
+        Health
     }
 
     public attackType type;

@@ -16,9 +16,15 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     public bool isInvincible;
     public int invincibleTime;
 
-    public float currentHealth;
+    public int currentHealth;
 
-    public float maxHealth;
+    public int maxHealth;
+
+    public int healthRegenRate;
+    [Range(0.1f, 3)]
+    public float healthRegenTime;
+    [HideInInspector]
+    public bool isRegenHealth = false;
 
     public Scrollbar HealthBar;
     private TMP_Text HealthText;
@@ -38,7 +44,11 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     // Update is called once per frame
     void Update()
     {
-        HealthBar.size = currentHealth / maxHealth;
+        if (currentHealth < maxHealth && !isRegenHealth)
+        {
+            StartCoroutine(healthRegen());
+        }
+        HealthBar.size = (float)currentHealth / (float)maxHealth;
         HealthText.text = currentHealth + "/" + maxHealth;
     }
 
@@ -79,5 +89,18 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     {
         maxHealth = playerStatsSystem.Constitution * 100;
         currentHealth = maxHealth;
+    }
+
+    IEnumerator healthRegen()
+    {
+        isRegenHealth = true;
+        yield return new WaitForSeconds(2.0f);
+        while (currentHealth < maxHealth)
+        {
+            Heal((int)(((float)healthRegenRate / 100) * (float)maxHealth));
+            yield return new WaitForSeconds(healthRegenTime);
+        }
+
+        isRegenHealth = false;
     }
 }
