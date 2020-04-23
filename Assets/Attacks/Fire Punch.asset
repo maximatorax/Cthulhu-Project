@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire Punch
   m_EditorClassIdentifier: 
   damage: 15
-  cooldown: 3
+  cooldown: 5
   canDo: 1
   triggerName: Attack
   range: 1
