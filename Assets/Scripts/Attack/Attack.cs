@@ -35,6 +35,14 @@ public class Attack : ScriptableObject
         Friendship
     };
 
+    public enum ressource
+    {
+        Mana,
+        Stamina
+    }
+
     public attackType type;
     public attackElement element;
+    public ressource resssourceUsed;
+    public int ressourceCost;
 }

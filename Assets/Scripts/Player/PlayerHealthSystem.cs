@@ -16,9 +16,9 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     public bool isInvincible;
     public int invincibleTime;
 
-    public int currentHealth;
+    public float currentHealth;
 
-    public int maxHealth;
+    public float maxHealth;
 
     public Scrollbar HealthBar;
     private TMP_Text HealthText;
@@ -38,7 +38,7 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     // Update is called once per frame
     void Update()
     {
-        HealthBar.size = (float)currentHealth / (float)maxHealth;
+        HealthBar.size = currentHealth / maxHealth;
         HealthText.text = currentHealth + "/" + maxHealth;
     }
 
