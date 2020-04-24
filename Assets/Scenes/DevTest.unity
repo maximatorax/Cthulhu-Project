@@ -962,14 +962,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1781736298}
     - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
-      propertyPath: manaRegenTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
-      propertyPath: staminaRegenTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
       propertyPath: ManaBar
       value: 
       objectReference: {fileID: 1820173964}
