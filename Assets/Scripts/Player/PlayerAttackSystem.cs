@@ -159,7 +159,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
             return;
         }
         else if (attack.resssourceUsed == global::Attack.ressource.Health &&
-                 attack.ressourceCost > playerHealthSystem.currentHealth)
+                 attack.ressourceCost >= playerHealthSystem.currentHealth)
         {
             Debug.Log("Not enough life!");
             return;
