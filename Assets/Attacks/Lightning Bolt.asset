@@ -21,3 +21,5 @@ MonoBehaviour:
   attackIcon: {fileID: 21300000, guid: 8064b756c36002743b5f655ef9cc0e16, type: 3}
   type: 1
   element: 5
+  resssourceUsed: 0
+  ressourceCost: 10

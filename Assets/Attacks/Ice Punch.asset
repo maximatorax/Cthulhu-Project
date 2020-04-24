@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff2ba836eb98542b26b954695cd9c9, type: 3}
   m_Name: Ice Punch
   m_EditorClassIdentifier: 
-  damage: 20
-  cooldown: 4
+  damage: 15
+  cooldown: 5
   canDo: 1
   triggerName: Attack
   range: 1
@@ -21,3 +21,5 @@ MonoBehaviour:
   attackIcon: {fileID: 21300000, guid: aecf77529a6ddfb46afe9f9b075cd894, type: 3}
   type: 0
   element: 4
+  resssourceUsed: 0
+  ressourceCost: 10
