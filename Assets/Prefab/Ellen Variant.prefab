@@ -152,11 +152,15 @@ MonoBehaviour:
   mana: 0
   maxMana: 100
   manaRegenRate: 3
+  manaRegenTime: 0
   stamina: 0
   maxStamina: 100
   staminaRegenRate: 3
+  staminaRegenTime: 0
   isRegenStamina: 0
   isRegenMana: 0
+  ManaBar: {fileID: 0}
+  StaminaBar: {fileID: 0}
 --- !u!114 &1461847353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,6 +179,9 @@ MonoBehaviour:
   invincibleTime: 2
   currentHealth: 0
   maxHealth: 100
+  healthRegenRate: 3
+  healthRegenTime: 0.5
+  isRegenHealth: 0
   HealthBar: {fileID: 0}
 --- !u!114 &1378196617732423471
 MonoBehaviour:

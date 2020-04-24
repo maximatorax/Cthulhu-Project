@@ -981,14 +981,6 @@ PrefabInstance:
       propertyPath: HealthBar
       value: 
       objectReference: {fileID: 738072240}
-    - target: {fileID: 1461847353, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
-      propertyPath: healthRegenTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461847353, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
-      propertyPath: healthRegenRate
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2089918114, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
       propertyPath: m_Enabled
       value: 0
