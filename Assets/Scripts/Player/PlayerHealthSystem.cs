@@ -88,7 +88,10 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     public void UpdateHealth()
     {
         maxHealth = playerStatsSystem.Constitution * 100;
-        currentHealth = maxHealth;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 
     IEnumerator healthRegen()

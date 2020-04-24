@@ -11,20 +11,22 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     private CharacterController charController;
     private PlayerStatsSystem playerStatsSystem;
     private PlayerHealthSystem playerHealthSystem;
+    private PlayerInventorySystem playerInventorySystem;
     private bool started = false;
 
+    public List<Attack> attackList;
     public LayerMask attackLayer;
     public Attack selectedAttack;
     public int currentAttack;
     public List<Image> attackIcons;
 
     public int mana;
-    public int maxMana = 100;
+    public int maxMana;
     public int manaRegenRate;
     [Range(0.1f, 3)]
     public float manaRegenTime;
     public int stamina;
-    public int maxStamina = 100;
+    public int maxStamina;
     public int staminaRegenRate;
     [Range(0.1f, 3)]
     public float staminaRegenTime;
@@ -50,18 +52,21 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         playerHealthSystem = gameObject.GetComponent<PlayerHealthSystem>();
         ManaText = ManaBar.GetComponentInChildren<TMP_Text>();
         StaminaText = StaminaBar.GetComponentInChildren<TMP_Text>();
+        playerInventorySystem = gameObject.GetComponent<PlayerInventorySystem>();
+        maxMana = playerStatsSystem.Wisdom * 100;
         mana = maxMana;
+        maxStamina = playerStatsSystem.Agility * 100;
         stamina = maxStamina;
-        selectedAttack = Player.attackList[0];
+        selectedAttack = attackList[0];
         currentAttack = 0;
-        foreach (Attack attack in Player.attackList)
+        foreach (Attack attack in attackList)
         {
             attack.canDo = true;
         }
 
-        for (int x = 0; x < Player.attackList.Count; x++)
+        for (int x = 0; x < attackList.Count; x++)
         {
-            attackIcons[x].sprite = Player.attackList[x].attackIcon;
+            attackIcons[x].sprite = attackList[x].attackIcon;
         }
 
         attackIcons[currentAttack].color = new Color(attackIcons[currentAttack].color.r, attackIcons[currentAttack].color.g, attackIcons[currentAttack].color.b, 1);
@@ -129,7 +134,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
             {
                 currentAttack = 4;
             }
-            selectedAttack = Player.attackList[currentAttack];
+            selectedAttack = attackList[currentAttack];
         }
         if (Input.mouseScrollDelta.y < 0.0f)
         {
@@ -139,7 +144,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
             {
                 currentAttack = 0;
             }
-            selectedAttack = Player.attackList[currentAttack];
+            selectedAttack = attackList[currentAttack];
         }
 
         attackIcons[currentAttack].color = new Color(attackIcons[currentAttack].color.r, attackIcons[currentAttack].color.g, attackIcons[currentAttack].color.b, 1);
@@ -225,7 +230,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     public Attack GetAttack(int attackNumber)
     {
-        return Player.attackList[attackNumber];
+        return attackList[attackNumber];
     }
 
     IEnumerator manaRegen()
@@ -260,6 +265,42 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         }
 
         isRegenStamina = false;
+    }
+
+    public void RefillMana(int manaToRefill)
+    {
+        mana += manaToRefill;
+        if (mana > maxMana)
+        {
+            mana = maxMana;
+        }
+    }
+
+    public void RefillStamina(int staminaToRefill)
+    {
+        stamina += staminaToRefill;
+        if (stamina > maxStamina)
+        {
+            stamina = maxStamina;
+        }
+    }
+
+    public void UpdateMana()
+    {
+        maxMana = playerStatsSystem.Wisdom * 100;
+        if (mana > maxMana)
+        {
+            mana = maxMana;
+        }
+    }
+
+    public void UpdateStamina()
+    {
+        maxStamina = playerStatsSystem.Agility * 100;
+        if (stamina > maxStamina)
+        {
+            stamina = maxStamina;
+        }
     }
 
     void OnDrawGizmos()
