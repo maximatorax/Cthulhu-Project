@@ -228,6 +228,8 @@ MonoBehaviour:
   Inventory:
   - {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4, type: 2}
   Equipment: []
+  inventoryPanel: {fileID: 0}
+  equipmentPanel: {fileID: 0}
 --- !u!136 &2000867885
 CapsuleCollider:
   m_ObjectHideFlags: 0

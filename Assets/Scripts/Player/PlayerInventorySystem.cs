@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Xml;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 {
@@ -14,6 +14,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     private PlayerHealthSystem playerHealthSystem;
     private PlayerAttackSystem playerAttackSystem;
     private Attack baseAttack;
+
+    public GameObject inventoryPanel;
+    public GameObject equipmentPanel;
+    public GameObject InventoryContent;
+    public GameObject EquipmentContent;
 
     // Start is called before the first frame update
     void Start()
@@ -36,11 +41,87 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             Unequip(Equipment[0]);
         }
+
+        if (Input.GetButtonDown("Inventory") && !inventoryPanel.activeSelf)
+        {
+            ShowInventory();
+        }
+        else if (Input.GetButtonDown("Inventory") && inventoryPanel.activeSelf)
+        {
+            CloseInventory();
+        }
+        if (Input.GetButtonDown("Equipment") && !equipmentPanel.activeSelf)
+        {
+            ShowEquipment();
+        }
+        else if (Input.GetButtonDown("Equipment") && equipmentPanel.activeSelf)
+        {
+            CloseEquipment();
+        }
     }
 
     public void ShowInventory()
     {
-        throw new System.NotImplementedException();
+        inventoryPanel.SetActive(true);
+        foreach (Item item in Inventory)
+        {
+            GameObject go = new GameObject();
+            Instantiate(go, Vector3.up, Quaternion.identity);
+            go.SetActive(true);
+            go.transform.parent = InventoryContent.transform;
+            go.AddComponent<Image>();
+            go.AddComponent<Button>();
+            go.GetComponent<Image>().sprite = item.itemIcon;
+            go.GetComponent<Button>().targetGraphic = go.GetComponent<Image>();
+            go.GetComponent<Button>().onClick.AddListener(delegate { EquipButton(item, go); });
+        }
+    }
+
+    public void EquipButton(Item item, GameObject button)
+    {
+        Equip(item);
+        Destroy(button);
+    }
+
+    public void UnequipButton(Item item, GameObject button)
+    {
+        Unequip(item);
+        Destroy(button);
+    }
+
+    public void CloseInventory()
+    {
+        foreach (Transform child in InventoryContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        inventoryPanel.SetActive(false);
+    }
+
+    public void ShowEquipment()
+    {
+        equipmentPanel.SetActive(true);
+        foreach (Item item in Equipment)
+        {
+            GameObject go = new GameObject();
+            Instantiate(go, Vector3.up, Quaternion.identity);
+            go.SetActive(true);
+            go.transform.parent = EquipmentContent.transform;
+            go.AddComponent<Image>();
+            go.AddComponent<Button>();
+            go.GetComponent<Image>().sprite = item.itemIcon;
+            go.GetComponent<Button>().targetGraphic = go.GetComponent<Image>();
+            go.GetComponent<Button>().onClick.AddListener(delegate { UnequipButton(item, go); });
+        }
+    }
+
+    public void CloseEquipment()
+    {
+        foreach (Transform child in EquipmentContent.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        equipmentPanel.SetActive(false);
     }
 
     public void AddToInventory(Item itemToAdd)
@@ -70,7 +151,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         AddItemBonus(itemToEquip);
         if (itemToEquip.GetType() == typeof(Weapon))
         {
-            addWeaponAttack((Weapon)itemToEquip);
+            AddWeaponAttack((Weapon)itemToEquip);
         }
     }
 
@@ -81,7 +162,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         SubItemBonus(itemToUnequip);
         if (itemToUnequip.GetType() == typeof(Weapon))
         {
-            subWeaponAttack((Weapon)itemToUnequip);
+            SubWeaponAttack((Weapon)itemToUnequip);
         }
     }
 
@@ -139,13 +220,13 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         }
     }
 
-    public void addWeaponAttack(Weapon weapon)
+    public void AddWeaponAttack(Weapon weapon)
     {
         playerAttackSystem.attackList[0] = weapon.weaponAttack;
         playerAttackSystem.attackIcons[0].sprite = weapon.weaponAttack.attackIcon;
     }
 
-    public void subWeaponAttack(Weapon weapon)
+    public void SubWeaponAttack(Weapon weapon)
     {
         playerAttackSystem.attackList[0] = baseAttack;
         playerAttackSystem.attackIcons[0].sprite = baseAttack.attackIcon;
