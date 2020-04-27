@@ -19,6 +19,8 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     public GameObject equipmentPanel;
     public GameObject InventoryContent;
     public GameObject EquipmentContent;
+    [Range(0, 2)]
+    public int nbOfFreeHands;
 
     // Start is called before the first frame update
     void Start()
@@ -32,16 +34,6 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Equip(Inventory[0]);
-        }
-
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            Unequip(Equipment[0]);
-        }
-
         if (Input.GetButtonDown("Inventory") && !inventoryPanel.activeSelf)
         {
             ShowInventory();
@@ -79,14 +71,17 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
     public void EquipButton(Item item, GameObject button)
     {
+        if (nbOfFreeHands < item.nbOfHands) return;
         Equip(item);
         Destroy(button);
+        nbOfFreeHands -= item.nbOfHands;
     }
 
     public void UnequipButton(Item item, GameObject button)
     {
         Unequip(item);
         Destroy(button);
+        nbOfFreeHands += item.nbOfHands;
     }
 
     public void CloseInventory()
@@ -153,6 +148,8 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             AddWeaponAttack((Weapon)itemToEquip);
         }
+        CloseEquipment();
+        ShowEquipment();
     }
 
     public void Unequip(Item itemToUnequip)
@@ -160,10 +157,12 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         Inventory.Add(itemToUnequip);
         Equipment.Remove(itemToUnequip);
         SubItemBonus(itemToUnequip);
-        if (itemToUnequip.GetType() == typeof(Weapon))
+        if (itemToUnequip.GetType() == typeof(Weapon) && !Equipment.Contains(itemToUnequip))
         {
             SubWeaponAttack((Weapon)itemToUnequip);
         }
+        CloseInventory();
+        ShowInventory();
     }
 
     public void AddItemBonus(Item item)

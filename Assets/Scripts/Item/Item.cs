@@ -19,6 +19,8 @@ public abstract class Item : ScriptableObject
 
     public statBonus StatBonus;
     public int bonus;
+    [Range(0, 2)]
+    public int nbOfHands;
 }
 
 [CreateAssetMenu(menuName = "Items/Weapon")]
