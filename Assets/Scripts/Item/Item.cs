@@ -24,7 +24,6 @@ public abstract class Item : ScriptableObject
 [CreateAssetMenu(menuName = "Items/Weapon")]
 public class Weapon : Item
 {
-    public int damage;
     public Attack weaponAttack;
 }
 
