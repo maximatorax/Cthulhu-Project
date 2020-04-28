@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -36,7 +35,8 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public GameObject LevelUpPanel;
     public GameObject LevelUpButton;
 
-    private PlayerHealthSystem PlayerHealthSystem;
+    private PlayerHealthSystem playerHealthSystem;
+    private PlayerAttackSystem playerAttackSystem;
 
     private int tempStrength;
     private int tempAgility;
@@ -46,7 +46,8 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 
     void Start()
     {
-        PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
+        playerHealthSystem = GetComponent<PlayerHealthSystem>();
+        playerAttackSystem = GetComponent<PlayerAttackSystem>();
         LevelUpPanel.SetActive(false);
         LevelUpButton.SetActive(false);
     }
@@ -209,7 +210,13 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         }
         Time.timeScale = 1;
         LevelUpPanel.SetActive(false);
-        PlayerHealthSystem.UpdateHealth();
+        level++;
+        playerHealthSystem.UpdateHealth();
+        playerHealthSystem.Heal(playerHealthSystem.maxHealth);
+        playerAttackSystem.UpdateStamina();
+        playerAttackSystem.RefillStamina(playerAttackSystem.maxStamina);
+        playerAttackSystem.UpdateMana();
+        playerAttackSystem.RefillMana(playerAttackSystem.maxMana);
     }
 
     public void Confirm()

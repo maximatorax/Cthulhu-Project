@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,6 +20,12 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
 
     public int maxHealth;
 
+    public int healthRegenRate;
+    [Range(0.1f, 3)]
+    public float healthRegenTime;
+    [HideInInspector]
+    public bool isRegenHealth = false;
+
     public Scrollbar HealthBar;
     private TMP_Text HealthText;
 
@@ -39,6 +44,10 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     // Update is called once per frame
     void Update()
     {
+        if (currentHealth < maxHealth && !isRegenHealth)
+        {
+            StartCoroutine(healthRegen());
+        }
         HealthBar.size = (float)currentHealth / (float)maxHealth;
         HealthText.text = currentHealth + "/" + maxHealth;
     }
@@ -79,6 +88,22 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     public void UpdateHealth()
     {
         maxHealth = playerStatsSystem.Constitution * 100;
-        currentHealth = maxHealth;
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+    }
+
+    IEnumerator healthRegen()
+    {
+        isRegenHealth = true;
+        yield return new WaitForSeconds(2.0f);
+        while (currentHealth < maxHealth)
+        {
+            Heal((int)(((float)healthRegenRate / 100) * (float)maxHealth));
+            yield return new WaitForSeconds(healthRegenTime);
+        }
+
+        isRegenHealth = false;
     }
 }

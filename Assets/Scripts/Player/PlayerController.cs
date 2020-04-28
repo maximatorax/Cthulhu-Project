@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -12,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public float rotationSpeed = 240.0f;
     public float gravity = 20.0f;
     public Animator playerAnimator;
-    public List<Attack> attackList;
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController charController;
