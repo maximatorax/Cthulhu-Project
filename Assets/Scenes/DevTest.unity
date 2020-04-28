@@ -423,6 +423,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 11.958553, z: 21.774391}
   m_Center: {x: 0, y: 5.4792767, z: -1.5642133}
+--- !u!114 &883950148 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9070893563217076293, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
+    type: 3}
+  m_PrefabInstance: {fileID: 4230091826223014798}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &926915092 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4230091826443450778, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
@@ -1034,6 +1046,11 @@ PrefabInstance:
       propertyPath: Strength
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1378196617732423471, guid: 0eb0314ffaed54b4194856287e7d9b27,
+        type: 3}
+      propertyPath: LevelText
+      value: 
+      objectReference: {fileID: 883950148}
     - target: {fileID: 3989251871863372581, guid: 0eb0314ffaed54b4194856287e7d9b27,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1141,6 +1158,18 @@ PrefabInstance:
       propertyPath: nbOfFreeHands
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
+        type: 3}
+      propertyPath: ItemIcon
+      value: 
+      objectReference: {fileID: 6736357619181194514, guid: 623e92b205672604c9a6b64e73ee3cdc,
+        type: 3}
+    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
+        type: 3}
+      propertyPath: Inventory.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
 --- !u!1 &3989251873153377586 stripped
@@ -1427,7 +1456,7 @@ PrefabInstance:
     - target: {fileID: 1805517088302381626, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -11.195007
+      value: -11.194946
       objectReference: {fileID: 0}
     - target: {fileID: 1805517088302381626, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
@@ -2340,7 +2369,7 @@ PrefabInstance:
     - target: {fileID: 7185062841732226645, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -11.195007
+      value: -11.194946
       objectReference: {fileID: 0}
     - target: {fileID: 7185062841732226645, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}

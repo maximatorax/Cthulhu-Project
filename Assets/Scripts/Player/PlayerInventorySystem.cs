@@ -10,6 +10,8 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
     public List<Item> Equipment;
 
+    public GameObject ItemIcon;
+
     private PlayerStatsSystem playerStatsSystem;
     private PlayerHealthSystem playerHealthSystem;
     private PlayerAttackSystem playerAttackSystem;
@@ -57,14 +59,9 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         inventoryPanel.SetActive(true);
         foreach (Item item in Inventory)
         {
-            GameObject go = new GameObject();
-            Instantiate(go, Vector3.up, Quaternion.identity);
-            go.SetActive(true);
-            go.transform.parent = InventoryContent.transform;
-            go.AddComponent<Image>();
-            go.AddComponent<Button>();
+            GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
+            go.transform.SetParent(InventoryContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;
-            go.GetComponent<Button>().targetGraphic = go.GetComponent<Image>();
             go.GetComponent<Button>().onClick.AddListener(delegate { EquipButton(item, go); });
         }
     }
@@ -98,14 +95,9 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         equipmentPanel.SetActive(true);
         foreach (Item item in Equipment)
         {
-            GameObject go = new GameObject();
-            Instantiate(go, Vector3.up, Quaternion.identity);
-            go.SetActive(true);
-            go.transform.parent = EquipmentContent.transform;
-            go.AddComponent<Image>();
-            go.AddComponent<Button>();
+            GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
+            go.transform.SetParent(EquipmentContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;
-            go.GetComponent<Button>().targetGraphic = go.GetComponent<Image>();
             go.GetComponent<Button>().onClick.AddListener(delegate { UnequipButton(item, go); });
         }
     }

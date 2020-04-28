@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff2ba836eb98542b26b954695cd9c9, type: 3}
   m_Name: Lightning Bolt
   m_EditorClassIdentifier: 
-  damage: 100
+  damage: 50
   cooldown: 2
   canDo: 1
   triggerName: Attack

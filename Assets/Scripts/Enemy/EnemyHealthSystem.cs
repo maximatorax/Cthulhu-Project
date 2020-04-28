@@ -13,6 +13,8 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
     public int expToGive;
     public Attack.attackElement elementResistance;
     public Attack.attackElement elementWeakness;
+    public Attack.attackType typeResistance;
+    public Attack.attackType typeWeakness;
     public Scrollbar HealthBar;
     public TMP_Text HealthBarText;
 
@@ -66,7 +68,7 @@ public class EnemyHealthSystem : MonoBehaviour, IHealthSystem
         enemyAnimator.SetTrigger("Die");
         enemy.GetComponentInChildren<CapsuleCollider>().enabled = false;
         HealthBar.gameObject.SetActive(false);
-        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatsSystem>().exp += expToGive;
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatsSystem>().AddExp(expToGive);
     }
 
     public void Heal(int healing)
