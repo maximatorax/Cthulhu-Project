@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
@@ -76,7 +77,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     {
         if(playerStatsSystem.leveling)return;
 
-        if (stamina < maxStamina && !isRegenStamina)
+        if (stamina < maxStamina && !isRegenStamina && !Player.isSprinting)
         {
             StartCoroutine(staminaRegen());
         }
@@ -264,11 +265,17 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         yield return new WaitForSeconds(2.0f);
         while (stamina < maxStamina)
         {
-            stamina += (int)(((float)staminaRegenRate/100)*(float)maxStamina);
+            if (Player.isSprinting)
+            {
+                isRegenStamina = false;
+                yield break;
+            }
+            stamina += (int) (((float) staminaRegenRate / 100) * (float) maxStamina);
             if (stamina > maxStamina)
             {
                 stamina = maxStamina;
             }
+
             yield return new WaitForSeconds(staminaRegenTime);
         }
 

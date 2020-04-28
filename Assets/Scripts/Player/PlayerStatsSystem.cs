@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 {
@@ -36,6 +37,9 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public GameObject LevelUpPanel;
     public GameObject LevelUpButton;
 
+    public Scrollbar ExpBar;
+    private TMP_Text ExpText;
+
     private PlayerHealthSystem playerHealthSystem;
     private PlayerAttackSystem playerAttackSystem;
 
@@ -49,6 +53,7 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     {
         playerHealthSystem = GetComponent<PlayerHealthSystem>();
         playerAttackSystem = GetComponent<PlayerAttackSystem>();
+        ExpText = ExpBar.GetComponentInChildren<TMP_Text>();
         LevelUpPanel.SetActive(false);
         LevelUpButton.SetActive(false);
     }
@@ -75,6 +80,9 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         }
 
         if (leveling)return;
+
+        ExpBar.size = ((float)exp / (float)expToLevel);
+        ExpText.text = (((float)exp / (float)expToLevel) * 100).ToString("F2") + "%";
 
         if (exp >= expToLevel)
         {
@@ -225,6 +233,10 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 
     public IEnumerator Leveling()
     {
+        ExpBar.gameObject.SetActive(false);
+        playerHealthSystem.HealthBar.gameObject.SetActive(false);
+        playerAttackSystem.ManaBar.gameObject.SetActive(false);
+        playerAttackSystem.StaminaBar.gameObject.SetActive(false);
         while (leveling)
         {
             StrengthText.text = "Strength : " + Strength.ToString();
@@ -236,6 +248,10 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
             LevelText.text = "Level : " + level.ToString();
             yield return null;
         }
+        ExpBar.gameObject.SetActive(true);
+        playerHealthSystem.HealthBar.gameObject.SetActive(true);
+        playerAttackSystem.ManaBar.gameObject.SetActive(true);
+        playerAttackSystem.StaminaBar.gameObject.SetActive(true);
         Time.timeScale = 1;
         playerHealthSystem.UpdateHealth();
         playerHealthSystem.Heal(playerHealthSystem.maxHealth);

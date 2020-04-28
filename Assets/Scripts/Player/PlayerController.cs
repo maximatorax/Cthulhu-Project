@@ -1,24 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 5.0f;
     public float sprintMultiplier = 2.0f;
-    public bool isSprinting = false;
+    public bool isSprinting;
     public float jumpSpeed = 8.0f;
     public float rotationSpeed = 240.0f;
     public float gravity = 20.0f;
     public Animator playerAnimator;
 
-    private Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
     private CharacterController charController;
+    private PlayerAttackSystem playerAttackSystem;
+    private bool canSprint;
     
     // Start is called before the first frame update
     void Start()
     {
         charController = gameObject.GetComponent<CharacterController>();
+        playerAttackSystem = gameObject.GetComponent<PlayerAttackSystem>();
         playerAnimator = gameObject.GetComponent<Animator>();
+        isSprinting = false;
+        canSprint = true;
     }
 
     // Update is called once per frame
@@ -47,15 +53,27 @@ public class PlayerController : MonoBehaviour
         if (charController.isGrounded)
         {
             moveDirection = transform.forward * move.magnitude;
-            if (Input.GetButton("Sprint"))
+
+            if (Input.GetButtonUp("Sprint"))
+            {
+                StopCoroutine(Sprint());
+                isSprinting = false;
+            }
+
+            if (Input.GetButton("Sprint") && !isSprinting && playerAttackSystem.stamina >= 10 && moveDirection != Vector3.zero)
+            {
+                isSprinting = true;
+                canSprint = true;
+                StartCoroutine(Sprint());
+            }
+
+            if (isSprinting)
             {
                 moveDirection *= speed * sprintMultiplier;
-                isSprinting = true;
             }
             else
             {
                 moveDirection *= speed;
-                isSprinting = false;
             }
 
             playerAnimator.SetFloat("VerticalSpeed", moveDirection.z);
@@ -74,5 +92,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    IEnumerator Sprint()
+    {
+        while (canSprint && isSprinting)
+        {
+            playerAttackSystem.stamina -= 10;
+            if (playerAttackSystem.stamina < 10)
+            {
+                canSprint = false;
+                isSprinting = false;
+
+            }
+            yield return new WaitForSeconds(1.0f);
+        }
+        isSprinting = false;
+    }
 
 }
