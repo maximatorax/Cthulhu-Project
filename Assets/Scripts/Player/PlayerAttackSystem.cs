@@ -204,25 +204,33 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
         if (attack.type == global::Attack.attackType.Physical)
         {
-            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Strength) * returnedDamage);
+            returnedDamage += (int)(((1.0f / 10.0f) * playerStatsSystem.Strength) * returnedDamage);
         }
         else if (attack.type == global::Attack.attackType.Magical)
         {
-            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Intelligence) * returnedDamage);
+            returnedDamage += (int)(((1.0f / 10.0f) * playerStatsSystem.Intelligence) * returnedDamage);
         }
         else if (attack.type == global::Attack.attackType.Special)
         {
-            returnedDamage = returnedDamage * ((playerStatsSystem.Strength + playerStatsSystem.Intelligence) * returnedDamage);
+            returnedDamage *= ((playerStatsSystem.Strength + playerStatsSystem.Intelligence) * returnedDamage);
         }
 
         if (attack.element == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementResistance)
         {
-            returnedDamage = returnedDamage / 2;
+            returnedDamage /= 2;
         }
-        else if (attack.element ==
-                 enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementWeakness)
+        else if (attack.element == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementWeakness)
         {
-            returnedDamage = returnedDamage * 2;
+            returnedDamage *= 2;
+        }
+
+        if (attack.type == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().typeResistance)
+        {
+            returnedDamage /= 2;
+        }
+        else if (attack.type == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().typeWeakness)
+        {
+            returnedDamage *= 2;
         }
 
         return returnedDamage;

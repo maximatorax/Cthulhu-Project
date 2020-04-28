@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
 {
     private Animator playerAnimator;
-    private PlayerController Player;
+    private PlayerController player;
     private PlayerStatsSystem playerStatsSystem;
 
     public Attack.attackElement elementResistance;
@@ -33,7 +33,7 @@ public class PlayerHealthSystem : MonoBehaviour, IHealthSystem
     void Start()
     {
         playerAnimator = gameObject.GetComponent<Animator>();
-        Player = gameObject.GetComponent<PlayerController>();
+        player = gameObject.GetComponent<PlayerController>();
         playerStatsSystem = gameObject.GetComponent<PlayerStatsSystem>();
         HealthText = HealthBar.GetComponentInChildren<TMP_Text>();
         maxHealth = playerStatsSystem.Constitution * 100;

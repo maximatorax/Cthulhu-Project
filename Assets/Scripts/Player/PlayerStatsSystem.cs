@@ -31,6 +31,7 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public TMP_Text WisdomText;
     public TMP_Text IntelligenceText;
     public TMP_Text StatPointsText;
+    public TMP_Text LevelText;
 
     public GameObject LevelUpPanel;
     public GameObject LevelUpButton;
@@ -55,12 +56,31 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     // Update is called once per frame
     void Update()
     {
-        if(leveling)return;
+        if (Input.GetButtonDown("Level") && !leveling)
+        {
+            leveling = true;
+            tempStrength = Strength;
+            tempAgility = Agility;
+            tempConstitution = Constitution;
+            tempWisdom = Wisdom;
+            tempIntelligence = Intelligence;
+            LevelUpPanel.SetActive(true);
+            Time.timeScale = 0;
+            LevelText.text = "Level : " + level.ToString();
+            StartCoroutine(Leveling());
+        }
+        else if (Input.GetButtonDown("Level"))
+        {
+            Confirm();
+        }
+
+        if (leveling)return;
 
         if (exp >= expToLevel)
         {
             LevelUpButton.SetActive(true);
         }
+
     }
 
     public void AddStatPoints(int nbStatPoints)
@@ -77,10 +97,17 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         }
     }
 
+    public void AddExp(int expToAdd)
+    {
+        exp += expToAdd;
+    }
+
     public void LevelUp()
     {
         exp -= expToLevel;
         expToLevel += expToLevel * 2;
+        level++;
+        LevelText.text = "Level : " + level.ToString();
         leveling = true;
         AddStatPoints(5);
         tempStrength = Strength;
@@ -206,11 +233,10 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
             WisdomText.text = "Wisdom : " + Wisdom.ToString();
             IntelligenceText.text = "Intelligence : " + Intelligence.ToString();
             StatPointsText.text = "Stat Points : " + StatPoints.ToString();
+            LevelText.text = "Level : " + level.ToString();
             yield return null;
         }
         Time.timeScale = 1;
-        LevelUpPanel.SetActive(false);
-        level++;
         playerHealthSystem.UpdateHealth();
         playerHealthSystem.Heal(playerHealthSystem.maxHealth);
         playerAttackSystem.UpdateStamina();
@@ -222,5 +248,6 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public void Confirm()
     {
         leveling = false;
+        LevelUpPanel.SetActive(false);
     }
 }

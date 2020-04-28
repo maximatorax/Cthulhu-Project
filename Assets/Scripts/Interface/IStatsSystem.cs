@@ -6,6 +6,7 @@ public interface IStatsSystem
 {
     void AddStatPoints(int nbStatPoints);
     void SubStatPoints(int nbStatPoints);
+    void AddExp(int expToAdd);
     void LevelUp();
     void IncreaseStrength();
     void DecreaseStrength();
