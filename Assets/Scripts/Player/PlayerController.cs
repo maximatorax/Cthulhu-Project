@@ -66,6 +66,11 @@ public class PlayerController : MonoBehaviour
                 canSprint = true;
                 StartCoroutine(Sprint());
             }
+            else if(Input.GetButton("Sprint") && moveDirection == Vector3.zero)
+            {
+                isSprinting = false;
+                StopCoroutine(Sprint());
+            }
 
             if (isSprinting)
             {
