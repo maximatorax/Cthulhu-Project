@@ -13,7 +13,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     private PlayerStatsSystem playerStatsSystem;
     private PlayerHealthSystem playerHealthSystem;
     private PlayerInventorySystem playerInventorySystem;
-    private bool started = false;
 
     public List<Attack> attackList;
     public LayerMask attackLayer;
@@ -45,7 +44,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Start()
     {
-        started = true;
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
         charController = gameObject.GetComponent<CharacterController>();
@@ -316,13 +314,5 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         {
             stamina = maxStamina;
         }
-    }
-
-    void OnDrawGizmos()
-    {
-        if(!started)return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + charController.center + Vector3.up * -charController.height * 0.5f, transform.forward * selectedAttack.range);
-        Gizmos.DrawRay((transform.position + charController.center + Vector3.up * -charController.height * 0.5f) + Vector3.up * charController.height, transform.forward * selectedAttack.range);
     }
 }

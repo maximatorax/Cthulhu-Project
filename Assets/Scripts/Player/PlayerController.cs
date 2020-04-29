@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
     public float gravity = 20.0f;
     public Animator playerAnimator;
 
-    public Vector3 moveDirection = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero;
     private CharacterController charController;
     private PlayerAttackSystem playerAttackSystem;
     private bool canSprint;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +49,10 @@ public class PlayerController : MonoBehaviour
 
         transform.Rotate(0, turnAmount * rotationSpeed * Time.deltaTime, 0);
 
+        if (playerAttackSystem.stamina >= 10)
+        {
+            canSprint = true;
+        }
 
         if (charController.isGrounded)
         {
@@ -62,8 +66,6 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetButton("Sprint") && !isSprinting && playerAttackSystem.stamina >= 10 && moveDirection != Vector3.zero)
             {
-                isSprinting = true;
-                canSprint = true;
                 StartCoroutine(Sprint());
             }
             else if(Input.GetButton("Sprint") && moveDirection == Vector3.zero)
@@ -99,16 +101,33 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Sprint()
     {
+
+        if (playerAttackSystem.stamina < 10)
+        {
+            canSprint = false;
+            isSprinting = false;
+            yield break;
+        }
+
+        isSprinting = true;
+
         while (canSprint && isSprinting)
         {
-            playerAttackSystem.stamina -= 10;
+            yield return new WaitForSeconds(0.5f);
             if (playerAttackSystem.stamina < 10)
             {
                 canSprint = false;
                 isSprinting = false;
-
+                yield break;
             }
-            yield return new WaitForSeconds(1.0f);
+            if (playerAttackSystem.stamina < 0)
+            {
+                playerAttackSystem.stamina = 0;
+            }
+            playerAttackSystem.stamina -= 10;
+            
+            
+            yield return new WaitForSeconds(0.5f);
         }
         isSprinting = false;
     }
