@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController charController;
     private PlayerAttackSystem playerAttackSystem;
     private bool canSprint;
+    private bool activeCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -101,23 +102,27 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Sprint()
     {
+        if(activeCoroutine) yield break;
+
+        isSprinting = true;
+        activeCoroutine = true;
 
         if (playerAttackSystem.stamina < 10)
         {
             canSprint = false;
             isSprinting = false;
+            activeCoroutine = false;
             yield break;
         }
 
-        isSprinting = true;
-
-        while (canSprint && isSprinting)
+        while (canSprint && isSprinting && playerAttackSystem.stamina >=10)
         {
             yield return new WaitForSeconds(0.5f);
             if (playerAttackSystem.stamina < 10)
             {
                 canSprint = false;
                 isSprinting = false;
+                activeCoroutine = false;
                 yield break;
             }
             if (playerAttackSystem.stamina < 0)
@@ -129,6 +134,7 @@ public class PlayerController : MonoBehaviour
             
             yield return new WaitForSeconds(0.5f);
         }
+        activeCoroutine = false;
         isSprinting = false;
     }
 
