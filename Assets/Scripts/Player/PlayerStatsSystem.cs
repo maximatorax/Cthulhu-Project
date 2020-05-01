@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 {
@@ -32,11 +32,15 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public TMP_Text WisdomText;
     public TMP_Text IntelligenceText;
     public TMP_Text StatPointsText;
+    public TMP_Text LevelText;
 
     public GameObject LevelUpPanel;
     public GameObject LevelUpButton;
 
-    private PlayerHealthSystem PlayerHealthSystem;
+    public Scrollbar ExpBar;
+
+    private PlayerHealthSystem playerHealthSystem;
+    private PlayerAttackSystem playerAttackSystem;
 
     private int tempStrength;
     private int tempAgility;
@@ -46,7 +50,8 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 
     void Start()
     {
-        PlayerHealthSystem = GetComponent<PlayerHealthSystem>();
+        playerHealthSystem = GetComponent<PlayerHealthSystem>();
+        playerAttackSystem = GetComponent<PlayerAttackSystem>();
         LevelUpPanel.SetActive(false);
         LevelUpButton.SetActive(false);
     }
@@ -54,12 +59,33 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     // Update is called once per frame
     void Update()
     {
-        if(leveling)return;
+        if (Input.GetButtonDown("Level") && !leveling)
+        {
+            leveling = true;
+            tempStrength = Strength;
+            tempAgility = Agility;
+            tempConstitution = Constitution;
+            tempWisdom = Wisdom;
+            tempIntelligence = Intelligence;
+            LevelUpPanel.SetActive(true);
+            Time.timeScale = 0;
+            LevelText.text = "Level : " + level.ToString();
+            StartCoroutine(Leveling());
+        }
+        else if (Input.GetButtonDown("Level"))
+        {
+            Confirm();
+        }
+
+        if (leveling)return;
+
+        ExpBar.size = ((float)exp / (float)expToLevel);
 
         if (exp >= expToLevel)
         {
             LevelUpButton.SetActive(true);
         }
+
     }
 
     public void AddStatPoints(int nbStatPoints)
@@ -76,10 +102,17 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         }
     }
 
+    public void AddExp(int expToAdd)
+    {
+        exp += expToAdd;
+    }
+
     public void LevelUp()
     {
         exp -= expToLevel;
         expToLevel += expToLevel * 2;
+        level++;
+        LevelText.text = "Level : " + level.ToString();
         leveling = true;
         AddStatPoints(5);
         tempStrength = Strength;
@@ -197,6 +230,10 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
 
     public IEnumerator Leveling()
     {
+        ExpBar.gameObject.SetActive(false);
+        playerHealthSystem.HealthBar.gameObject.SetActive(false);
+        playerAttackSystem.ManaBar.gameObject.SetActive(false);
+        playerAttackSystem.StaminaBar.gameObject.SetActive(false);
         while (leveling)
         {
             StrengthText.text = "Strength : " + Strength.ToString();
@@ -205,15 +242,25 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
             WisdomText.text = "Wisdom : " + Wisdom.ToString();
             IntelligenceText.text = "Intelligence : " + Intelligence.ToString();
             StatPointsText.text = "Stat Points : " + StatPoints.ToString();
+            LevelText.text = "Level : " + level.ToString();
             yield return null;
         }
+        ExpBar.gameObject.SetActive(true);
+        playerHealthSystem.HealthBar.gameObject.SetActive(true);
+        playerAttackSystem.ManaBar.gameObject.SetActive(true);
+        playerAttackSystem.StaminaBar.gameObject.SetActive(true);
         Time.timeScale = 1;
-        LevelUpPanel.SetActive(false);
-        PlayerHealthSystem.UpdateHealth();
+        playerHealthSystem.UpdateHealth();
+        playerHealthSystem.Heal(playerHealthSystem.maxHealth);
+        playerAttackSystem.UpdateStamina();
+        playerAttackSystem.RefillStamina(playerAttackSystem.maxStamina);
+        playerAttackSystem.UpdateMana();
+        playerAttackSystem.RefillMana(playerAttackSystem.maxMana);
     }
 
     public void Confirm()
     {
         leveling = false;
+        LevelUpPanel.SetActive(false);
     }
 }

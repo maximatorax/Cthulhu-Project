@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [CreateAssetMenu(menuName = "Attacks/Attack")]
 public class Attack : ScriptableObject
@@ -38,6 +35,15 @@ public class Attack : ScriptableObject
         Friendship
     };
 
+    public enum ressource
+    {
+        Mana,
+        Stamina,
+        Health
+    }
+
     public attackType type;
     public attackElement element;
+    public ressource resssourceUsed;
+    public int ressourceCost;
 }

@@ -114,16 +114,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  sprintMultiplier: 2
+  isSprinting: 0
   jumpSpeed: 17
   rotationSpeed: 180
   gravity: 20
   playerAnimator: {fileID: 0}
-  attackList:
-  - {fileID: 11400000, guid: 59da5929b02f0cd4cba1e454cc510e00, type: 2}
-  - {fileID: 11400000, guid: 280072d5b91ab6449a91071922268a24, type: 2}
-  - {fileID: 11400000, guid: 89003829750448f4c9aa313a383b8719, type: 2}
-  - {fileID: 11400000, guid: 9c5c31dcbe641ad47961ca008132b98c, type: 2}
-  - {fileID: 11400000, guid: 4e211cbc4618d164b9685a72e8a9760e, type: 2}
 --- !u!114 &1461847352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +132,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fa1b530d988c84caae5af1ca25ebed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackList:
+  - {fileID: 11400000, guid: 59da5929b02f0cd4cba1e454cc510e00, type: 2}
+  - {fileID: 11400000, guid: 280072d5b91ab6449a91071922268a24, type: 2}
+  - {fileID: 11400000, guid: 89003829750448f4c9aa313a383b8719, type: 2}
+  - {fileID: 11400000, guid: 9c5c31dcbe641ad47961ca008132b98c, type: 2}
+  - {fileID: 11400000, guid: 4e211cbc4618d164b9685a72e8a9760e, type: 2}
   attackLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -147,6 +149,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  mana: 0
+  maxMana: 100
+  manaRegenRate: 3
+  manaRegenTime: 0.5
+  stamina: 0
+  maxStamina: 100
+  staminaRegenRate: 3
+  staminaRegenTime: 0.5
+  isRegenStamina: 0
+  isRegenMana: 0
+  ManaBar: {fileID: 0}
+  StaminaBar: {fileID: 0}
 --- !u!114 &1461847353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +179,9 @@ MonoBehaviour:
   invincibleTime: 2
   currentHealth: 0
   maxHealth: 100
+  healthRegenRate: 3
+  healthRegenTime: 0.5
+  isRegenHealth: 0
   HealthBar: {fileID: 0}
 --- !u!114 &1378196617732423471
 MonoBehaviour:
@@ -196,6 +213,23 @@ MonoBehaviour:
   StatPointsText: {fileID: 0}
   LevelUpPanel: {fileID: 0}
   LevelUpButton: {fileID: 0}
+--- !u!114 &4123051032663481532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3989251871863596869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d288621e23dd9499e8d832e0e998a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Inventory:
+  - {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4, type: 2}
+  Equipment: []
+  inventoryPanel: {fileID: 0}
+  equipmentPanel: {fileID: 0}
 --- !u!136 &2000867885
 CapsuleCollider:
   m_ObjectHideFlags: 0
