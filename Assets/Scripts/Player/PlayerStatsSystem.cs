@@ -38,7 +38,6 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     public GameObject LevelUpButton;
 
     public Scrollbar ExpBar;
-    private TMP_Text ExpText;
 
     private PlayerHealthSystem playerHealthSystem;
     private PlayerAttackSystem playerAttackSystem;
@@ -53,7 +52,6 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
     {
         playerHealthSystem = GetComponent<PlayerHealthSystem>();
         playerAttackSystem = GetComponent<PlayerAttackSystem>();
-        ExpText = ExpBar.GetComponentInChildren<TMP_Text>();
         LevelUpPanel.SetActive(false);
         LevelUpButton.SetActive(false);
     }
@@ -82,7 +80,6 @@ public class PlayerStatsSystem : MonoBehaviour, IStatsSystem
         if (leveling)return;
 
         ExpBar.size = ((float)exp / (float)expToLevel);
-        ExpText.text = (((float)exp / (float)expToLevel) * 100).ToString("F2") + "%";
 
         if (exp >= expToLevel)
         {
