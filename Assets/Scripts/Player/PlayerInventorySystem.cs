@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 {
