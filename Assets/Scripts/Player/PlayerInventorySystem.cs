@@ -19,6 +19,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     private PlayerStatsSystem playerStatsSystem;
     private PlayerHealthSystem playerHealthSystem;
     private PlayerAttackSystem playerAttackSystem;
+    private CharacterController charController;
     private Attack baseAttack;
 
     public GameObject inventoryPanel;
@@ -28,12 +29,15 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     [Range(0, 2)]
     public int nbOfFreeHands;
 
+    public LayerMask grabableLayer;
+
     // Start is called before the first frame update
     void Start()
     {
         playerStatsSystem = gameObject.GetComponent<PlayerStatsSystem>();
         playerHealthSystem = gameObject.GetComponent<PlayerHealthSystem>();
         playerAttackSystem = gameObject.GetComponentInChildren<PlayerAttackSystem>();
+        charController = gameObject.GetComponent<CharacterController>();
         baseAttack = playerAttackSystem.attackList[0];
     }
 
@@ -55,6 +59,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         else if (Input.GetButtonDown("Equipment") && equipmentPanel.activeSelf)
         {
             CloseEquipment();
+        }
+
+        if (Input.GetButtonDown("Activate"))
+        {
+            PickUp();
         }
     }
 
@@ -117,17 +126,33 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
     public void AddToInventory(Item itemToAdd)
     {
-        throw new System.NotImplementedException();
+        Inventory.Add(itemToAdd);
+        if (inventoryPanel.activeSelf)
+        {
+            CloseInventory();
+            ShowInventory();
+        }
     }
 
     public void DeleteFromInventory(Item itemToDelete)
     {
-        throw new System.NotImplementedException();
+        Inventory.Remove(itemToDelete);
+        if (inventoryPanel.activeSelf)
+        {
+            CloseInventory();
+            ShowInventory();
+        }
     }
 
     public void PickUp()
     {
-        throw new System.NotImplementedException();
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + charController.center + Vector3.up * -charController.height * 0.5f,
+            transform.forward, out hit, 1.5f, grabableLayer))
+        {
+            AddToInventory(hit.collider.gameObject.GetComponent<Grabable>().assignedItem);
+            Destroy(hit.collider.gameObject);
+        }
     }
 
     public void Drop()
@@ -144,8 +169,12 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             AddWeaponAttack((Weapon)itemToEquip);
         }
-        CloseEquipment();
-        ShowEquipment();
+
+        if (equipmentPanel.activeSelf)
+        {
+            CloseEquipment();
+            ShowEquipment();
+        }
     }
 
     public void Unequip(Item itemToUnequip)
@@ -157,8 +186,12 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             SubWeaponAttack((Weapon)itemToUnequip);
         }
-        CloseInventory();
-        ShowInventory();
+
+        if (inventoryPanel.activeSelf)
+        {
+            CloseInventory();
+            ShowInventory();
+        }
     }
 
     public void AddItemBonus(Item item)
