@@ -18,4 +18,5 @@ MonoBehaviour:
   StatBonus: 0
   bonus: 0
   nbOfHands: 1
+  itemDescription: Test Weapon
   weaponAttack: {fileID: 11400000, guid: b3f05bb1c2e626948993750def67d660, type: 2}

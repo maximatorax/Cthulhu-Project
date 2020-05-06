@@ -46,4 +46,5 @@ public class Attack : ScriptableObject
     public attackElement element;
     public ressource resssourceUsed;
     public int ressourceCost;
+    public string attackDescription;
 }
