@@ -9,5 +9,5 @@ public interface IInventorySystem
     void AddToInventory(Item itemToAdd);
     void DeleteFromInventory(Item itemToDelete);
     void PickUp();
-    void Drop();
+    void Drop(Item itemToDrop);
 }

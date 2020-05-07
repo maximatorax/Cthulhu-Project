@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
@@ -61,7 +63,32 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
             CloseEquipment();
         }
 
-        if (Input.GetButtonDown("Activate"))
+        if (Input.GetButtonDown("Drop") && inventoryPanel.activeSelf)
+        {
+            Button[] button = inventoryPanel.GetComponentsInChildren<Button>();
+                for (int x = 0; x < inventoryPanel.GetComponentsInChildren<Button>().Length; x++)
+                {
+                    if (button[x].gameObject == EventSystem.current.currentSelectedGameObject)
+                    {
+                        Drop(Inventory[x]);
+                    }
+
+                }
+
+        }
+        else if (Input.GetButtonDown("Activate") && inventoryPanel.activeSelf)
+        {
+            Button[] button = inventoryPanel.GetComponentsInChildren<Button>();
+            for (int x = 0; x < inventoryPanel.GetComponentsInChildren<Button>().Length; x++)
+            {
+                if (button[x].gameObject == EventSystem.current.currentSelectedGameObject)
+                {
+                    EquipButton(Inventory[x], button[x].gameObject);
+                }
+
+            }
+        }
+        else if (Input.GetButtonDown("Activate"))
         {
             PickUp();
         }
@@ -75,7 +102,9 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
             GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
             go.transform.SetParent(InventoryContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;
-            go.GetComponent<Button>().onClick.AddListener(delegate { EquipButton(item, go); });
+            ColorBlock colorBlock = go.GetComponent<Button>().colors;
+            colorBlock.selectedColor = Color.gray;
+            go.GetComponent<Button>().colors = colorBlock;
         }
     }
 
@@ -155,9 +184,10 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         }
     }
 
-    public void Drop()
+    public void Drop(Item itemToDrop)
     {
-        throw new System.NotImplementedException();
+        Instantiate(itemToDrop.Dropable, transform.position + Vector3.forward, Quaternion.identity);
+        DeleteFromInventory(Inventory[Inventory.IndexOf(itemToDrop)]);
     }
 
     public void Equip(Item itemToEquip)

@@ -21,7 +21,7 @@ public abstract class Item : ScriptableObject
     public int bonus;
     [Range(0, 2)]
     public int nbOfHands;
-
+    public GameObject Dropable;
     public string itemDescription;
 }
 
