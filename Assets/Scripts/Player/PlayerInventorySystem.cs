@@ -50,7 +50,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             ShowInventory();
         }
-        else if (Input.GetButtonDown("Inventory") && inventoryPanel.activeSelf)
+        else if (Input.GetButtonDown("Inventory") && inventoryPanel.activeSelf || Input.GetButtonDown("Cancel") && inventoryPanel.activeSelf)
         {
             CloseInventory();
         }
@@ -58,7 +58,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             ShowEquipment();
         }
-        else if (Input.GetButtonDown("Equipment") && equipmentPanel.activeSelf)
+        else if (Input.GetButtonDown("Equipment") && equipmentPanel.activeSelf || Input.GetButtonDown("Cancel") && equipmentPanel.activeSelf)
         {
             CloseEquipment();
         }

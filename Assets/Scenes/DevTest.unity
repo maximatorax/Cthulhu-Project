@@ -2042,6 +2042,16 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4458680094708722007, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 163.30005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458680094708722007, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -62.80005
+      objectReference: {fileID: 0}
     - target: {fileID: 4513467133674938123, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchorMax.x
