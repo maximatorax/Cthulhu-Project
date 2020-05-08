@@ -15,15 +15,9 @@ public class Shop : MonoBehaviour, IInventorySystem
     public GameObject Buyer;
     public int money;
     public TMP_Text ShopMoneyText;
-    
-    private bool isLooking;
 
     void Update()
     {
-        if (!isLooking)
-        {
-            StartCoroutine(ShopperPickUpCooldown());
-        }
         if (shopPanel.activeSelf)
         {
             ShopMoneyText.text = "Money : " + money.ToString();
@@ -97,21 +91,4 @@ public class Shop : MonoBehaviour, IInventorySystem
         money += itemToSell.value;
     }
 
-    IEnumerator ShopperPickUpCooldown()
-    {
-        isLooking = true;
-        while (isLooking)
-        {
-            yield return new WaitForSeconds(3f);
-            RaycastHit hit;
-            Physics.Raycast(transform.position, Vector3.back, out hit, 3f, LayerMask.NameToLayer("Grabable"));
-            PickUp(hit);
-        }
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.back);
-    }
 }
