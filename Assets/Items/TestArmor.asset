@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: TestArmor
   m_EditorClassIdentifier: Assembly-CSharp::Armor
-  value: 0
+  value: 100
   weight: 0
   itemIcon: {fileID: 21300000, guid: 512433976493a674cb3154da39d7a511, type: 3}
   StatBonus: 0

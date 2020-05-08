@@ -228,8 +228,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Inventory:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4, type: 2}
+  - {fileID: 11400000, guid: 3745804a2f137ca48ac33959a6d573e7, type: 2}
   Equipment: []
   ItemIcon: {fileID: 6736357619181194514, guid: 623e92b205672604c9a6b64e73ee3cdc,
     type: 3}
@@ -238,9 +238,8 @@ MonoBehaviour:
   InventoryContent: {fileID: 0}
   EquipmentContent: {fileID: 0}
   nbOfFreeHands: 2
-  grabableLayer:
-    serializedVersion: 2
-    m_Bits: 512
+  money: 0
+  MoneyText: {fileID: 0}
 --- !u!136 &2000867885
 CapsuleCollider:
   m_ObjectHideFlags: 0

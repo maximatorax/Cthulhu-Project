@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +24,8 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     private PlayerAttackSystem playerAttackSystem;
     private CharacterController charController;
     private Attack baseAttack;
+    private bool isShopping = false;
+    private GameObject Shopper = null;
 
     public GameObject inventoryPanel;
     public GameObject equipmentPanel;
@@ -31,7 +34,9 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     [Range(0, 2)]
     public int nbOfFreeHands;
 
-    public LayerMask grabableLayer;
+    public int money;
+    public TMP_Text MoneyText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,16 +46,22 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         playerAttackSystem = gameObject.GetComponentInChildren<PlayerAttackSystem>();
         charController = gameObject.GetComponent<CharacterController>();
         baseAttack = playerAttackSystem.attackList[0];
+        money = 100;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (inventoryPanel.activeSelf)
+        {
+            MoneyText.text = "Money : " + money.ToString();
+        }
+
         if (Input.GetButtonDown("Inventory") && !inventoryPanel.activeSelf)
         {
             ShowInventory();
         }
-        else if (Input.GetButtonDown("Inventory") && inventoryPanel.activeSelf || Input.GetButtonDown("Cancel") && inventoryPanel.activeSelf)
+        else if (Input.GetButtonDown("Inventory") && inventoryPanel.activeSelf || Input.GetButtonDown("Cancel") && inventoryPanel.activeSelf && !isShopping)
         {
             CloseInventory();
         }
@@ -63,10 +74,19 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
             CloseEquipment();
         }
 
+        if (Input.GetButtonDown("Cancel") && isShopping)
+        {
+            CloseInventory();
+            Shopper.GetComponent<Shop>().CloseInventory();
+            Shopper.GetComponent<Shop>().Buyer = null;
+            Shopper = null;
+            isShopping = false;
+        }
+
         if (Input.GetButtonDown("Drop") && inventoryPanel.activeSelf)
         {
             Button[] button = inventoryPanel.GetComponentsInChildren<Button>();
-                for (int x = 0; x < inventoryPanel.GetComponentsInChildren<Button>().Length; x++)
+                for (int x = 0; x < button.Length; x++)
                 {
                     if (button[x].gameObject == EventSystem.current.currentSelectedGameObject)
                     {
@@ -76,10 +96,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                 }
 
         }
-        else if (Input.GetButtonDown("Activate") && inventoryPanel.activeSelf)
+
+        if (Input.GetButtonDown("Activate") && inventoryPanel.activeSelf && !isShopping)
         {
             Button[] button = inventoryPanel.GetComponentsInChildren<Button>();
-            for (int x = 0; x < inventoryPanel.GetComponentsInChildren<Button>().Length; x++)
+            for (int x = 0; x < button.Length; x++)
             {
                 if (button[x].gameObject == EventSystem.current.currentSelectedGameObject)
                 {
@@ -88,9 +109,45 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
             }
         }
+        else if (Input.GetButtonDown("Activate") && isShopping)
+        {
+            Button[] ShopButtons = Shopper.GetComponent<Shop>().shopPanel.GetComponentsInChildren<Button>();
+            Button[] InventoryButtons = inventoryPanel.GetComponentsInChildren<Button>();
+            for (int x = 0; x < ShopButtons.Length; x++)
+            {
+                if (ShopButtons[x].gameObject == EventSystem.current.currentSelectedGameObject)
+                {
+                    Buy(Shopper.GetComponent<Shop>().shopInventory[x]);
+                }
+            }
+
+            for (int y = 0; y < InventoryButtons.Length; y++)
+            {
+                if (InventoryButtons[y].gameObject == EventSystem.current.currentSelectedGameObject)
+                {
+                    Sell(Inventory[y]);
+                }
+            }
+        }
         else if (Input.GetButtonDown("Activate"))
         {
-            PickUp();
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position + charController.center + Vector3.up * -charController.height * 0.5f,
+                transform.forward, out hit, 1.5f))
+            {
+                if (hit.collider.gameObject.layer == LayerMask.NameToLayer("Grabable"))
+                {
+                    PickUp(hit);
+                }
+                else if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Shop"))
+                {
+                    isShopping = true;
+                    ShowInventory();
+                    Shopper = hit.collider.transform.parent.gameObject;
+                    Shopper.GetComponent<Shop>().ShowInventory();
+                    Shopper.GetComponent<Shop>().Buyer = gameObject;
+                }
+            }
         }
     }
 
@@ -173,21 +230,46 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         }
     }
 
-    public void PickUp()
+    public void PickUp(RaycastHit hit)
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + charController.center + Vector3.up * -charController.height * 0.5f,
-            transform.forward, out hit, 1.5f, grabableLayer))
-        {
-            AddToInventory(hit.collider.gameObject.GetComponent<Grabable>().assignedItem);
-            Destroy(hit.collider.gameObject);
-        }
+        
+        AddToInventory(hit.collider.gameObject.GetComponent<Grabable>().assignedItem);
+        Destroy(hit.collider.gameObject);
+        
     }
 
     public void Drop(Item itemToDrop)
     {
         Instantiate(itemToDrop.Dropable, transform.position + Vector3.forward, Quaternion.identity);
         DeleteFromInventory(Inventory[Inventory.IndexOf(itemToDrop)]);
+    }
+
+    public void Buy(Item itemToBuy)
+    {
+        if (money >= itemToBuy.value)
+        {
+            AddToInventory(itemToBuy);
+            Shopper.GetComponent<Shop>().Sell(itemToBuy);
+            money -= itemToBuy.value;
+        }
+        else
+        {
+            Debug.Log("You don't have enough money!");
+        }
+    }
+
+    public void Sell(Item itemToSell)
+    {
+        if (Shopper.GetComponent<Shop>().money >= itemToSell.value / 2)
+        {
+            DeleteFromInventory(itemToSell);
+            Shopper.GetComponent<Shop>().Buy(itemToSell);
+            money += itemToSell.value / 2;
+        }
+        else
+        {
+            Debug.Log("The vendor don't have enough money!");
+        }
     }
 
     public void Equip(Item itemToEquip)
