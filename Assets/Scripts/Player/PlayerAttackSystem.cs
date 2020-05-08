@@ -73,7 +73,7 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Update()
     {
-        if(playerStatsSystem.leveling)return;
+        if(playerStatsSystem.leveling || playerInventorySystem.inventoryPanel.activeSelf || playerInventorySystem.equipmentPanel.activeSelf)return;
 
         if (stamina < maxStamina && !isRegenStamina && !Player.isSprinting)
         {
