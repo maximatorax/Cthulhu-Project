@@ -12,9 +12,7 @@ using Image = UnityEngine.UI.Image;
 
 public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 {
-
     public List<Item> Inventory;
-
     public List<Item> Equipment;
 
     public GameObject ItemIcon;
@@ -156,6 +154,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         inventoryPanel.SetActive(true);
         foreach (Item item in Inventory)
         {
+            if(item == null) continue;
             GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
             go.transform.SetParent(InventoryContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;
@@ -194,6 +193,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         equipmentPanel.SetActive(true);
         foreach (Item item in Equipment)
         {
+            if (item == null) continue;
             GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
             go.transform.SetParent(EquipmentContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;

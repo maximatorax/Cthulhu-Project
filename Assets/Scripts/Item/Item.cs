@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,20 +24,4 @@ public abstract class Item : ScriptableObject
     public int nbOfHands;
     public GameObject Dropable;
     public string itemDescription;
-}
-
-[CreateAssetMenu(menuName = "Items/Weapon")]
-public class Weapon : Item
-{
-    public Attack weaponAttack;
-}
-
-[CreateAssetMenu(menuName = "Items/Armor")]
-public class Armor : Item
-{
-    public Attack.attackElement ElementResistence;
-    public Attack.attackType TypeResistence;
-    public float elementResistBonus;
-    public float typeResistBonus;
-    public int damageResistBonus;
 }

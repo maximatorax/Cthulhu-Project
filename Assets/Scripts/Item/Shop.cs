@@ -28,6 +28,7 @@ public class Shop : MonoBehaviour, IInventorySystem
         shopPanel.SetActive(true);
         foreach (Item item in shopInventory)
         {
+            if (item == null) continue;
             GameObject go = Instantiate(ItemIcon, Vector3.up, Quaternion.identity);
             go.transform.SetParent(ShopContent.transform);
             go.GetComponent<Image>().sprite = item.itemIcon;

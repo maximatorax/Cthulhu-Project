@@ -1181,11 +1181,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
         type: 3}
-      propertyPath: Inventory.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
-        type: 3}
       propertyPath: inventoryPanel
       value: 
       objectReference: {fileID: 1456980425}
@@ -1208,25 +1203,12 @@ PrefabInstance:
         type: 3}
       propertyPath: Equipment.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
         type: 3}
       propertyPath: MoneyText
       value: 
       objectReference: {fileID: 1960661828}
-    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
-        type: 3}
-      propertyPath: Inventory.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
-        type: 2}
-    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
-        type: 3}
-      propertyPath: Inventory.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3745804a2f137ca48ac33959a6d573e7,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
 --- !u!1 &3989251873153377586 stripped
@@ -1242,11 +1224,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
-        type: 3}
-      propertyPath: shopInventory.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
         type: 3}
       propertyPath: shopPanel
@@ -1267,18 +1244,6 @@ PrefabInstance:
       propertyPath: ShopMoneyText
       value: 
       objectReference: {fileID: 1291403146}
-    - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
-        type: 3}
-      propertyPath: shopInventory.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
-        type: 2}
-    - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
-        type: 3}
-      propertyPath: shopInventory.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3745804a2f137ca48ac33959a6d573e7,
-        type: 2}
     - target: {fileID: 4201018802865134228, guid: b450cd0a38776b84c93a58457dc6e505,
         type: 3}
       propertyPath: m_Name
@@ -2332,7 +2297,7 @@ PrefabInstance:
     - target: {fileID: 4766692693580910828, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 0.000000059604645
       objectReference: {fileID: 0}
     - target: {fileID: 4790177882621407188, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
@@ -2448,12 +2413,12 @@ PrefabInstance:
     - target: {fileID: 5259815669643222731, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000015258789
+      value: -0.0000029206276
       objectReference: {fileID: 0}
     - target: {fileID: 5259815669643222731, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000050341117
+      value: -0.000039103033
       objectReference: {fileID: 0}
     - target: {fileID: 5314362228842207020, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
@@ -2615,12 +2580,12 @@ PrefabInstance:
     - target: {fileID: 6271608452488909869, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0000054836273
+      value: -0.000051409006
       objectReference: {fileID: 0}
     - target: {fileID: 6271608452488909869, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000033785105
+      value: -0.0009007278
       objectReference: {fileID: 0}
     - target: {fileID: 6374030409387467751, guid: bf8066e3a59ab9b4093b5cb9cfec0434,
         type: 3}
