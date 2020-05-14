@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 253ce95192622f14cbfe1b36ee436b22, type: 3}
-  m_Name: TestWeapon
-  m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  value: 50
+  m_Name: TestWeapon2H
+  m_EditorClassIdentifier: 
+  value: 0
   weight: 0
   itemIcon: {fileID: 21300000, guid: bb92ee723f3fa4f489b6c64beeee2128, type: 3}
   StatBonus: 0
   bonus: 0
-  itemSlot: 01000000
-  additionalSlot: 2
+  itemSlot: 0100000002000000
+  additionalSlot: 0
   Dropable: {fileID: 9047702156173094442, guid: 9ef1bf021a9510442af2556185872bd7,
     type: 3}
   itemDescription: 

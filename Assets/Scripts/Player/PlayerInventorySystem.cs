@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using TMPro;
 using UnityEngine;
@@ -29,8 +30,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
     public GameObject equipmentPanel;
     public GameObject InventoryContent;
     public GameObject EquipmentContent;
-    [Range(0, 2)]
-    public int nbOfFreeHands;
+    public Item[] takenSlots;
 
     public int money;
     public TMP_Text MoneyText;
@@ -45,6 +45,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         charController = gameObject.GetComponent<CharacterController>();
         baseAttack = playerAttackSystem.attackList[0];
         money = 100;
+        takenSlots = new Item[10];
     }
 
     // Update is called once per frame
@@ -166,17 +167,93 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
     public void EquipButton(Item item, GameObject button)
     {
-        if (nbOfFreeHands < item.nbOfHands) return;
+        List<Item> itemWithSameSlot = new List<Item>();
+        if (Equipment.Count > 0)
+        {
+            foreach (Item equippedItem in Equipment)
+            {
+                foreach (int itemSlot in item.itemSlot)
+                {
+                    foreach (int equippedItemSlot in equippedItem.itemSlot)
+                    {
+                        
+                        if (takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem))
+                        {
+                            if (item.GetType() == typeof(Weapon) && item.additionalSlot != 0)
+                            {
+                                if (takenSlots[item.additionalSlot] == null)
+                                {
+                                    takenSlots[item.additionalSlot] = item;
+                                }
+                                else
+                                {
+                                    itemWithSameSlot.Add(equippedItem);
+                                }
+                            }
+                            else
+                            {
+                                itemWithSameSlot.Add(equippedItem);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (int slot in item.itemSlot)
+            {
+                takenSlots[slot] = item;
+            }
+        }
+
+        foreach (Item equippedItem in itemWithSameSlot)
+        {
+            for (int x = 0; x < takenSlots.Length; x++)
+            {
+                if (takenSlots.Contains(equippedItem))
+                {
+                    takenSlots[takenSlots.ToList().IndexOf(equippedItem)] = null;
+                }
+            }
+            Unequip(equippedItem);
+        }
+
+        foreach (int s in item.itemSlot)
+        {
+            if (takenSlots[s] == null)
+            {
+                takenSlots[s] = item;
+            }
+        }
         Equip(item);
         Destroy(button);
-        nbOfFreeHands -= item.nbOfHands;
     }
 
     public void UnequipButton(Item item, GameObject button)
     {
-        Unequip(item);
-        Destroy(button);
-        nbOfFreeHands += item.nbOfHands;
+        if (item.GetType() == typeof(Weapon) && takenSlots[item.additionalSlot] != null)
+        {
+            foreach (int slot in item.itemSlot)
+            {
+                if (takenSlots[slot] == item)
+                {
+                    Unequip(item);
+                    Destroy(button);
+                    takenSlots[item.additionalSlot] = null;
+                }
+            }
+        }
+        else
+        {
+            foreach (int slot in item.itemSlot)
+            {
+                takenSlots[slot] = null;
+            }
+
+            Unequip(item);
+            Destroy(button);
+        }
     }
 
     public void CloseInventory()
@@ -287,6 +364,12 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
             CloseEquipment();
             ShowEquipment();
         }
+
+        if (inventoryPanel.activeSelf)
+        {
+            CloseInventory();
+            ShowInventory();
+        }
     }
 
     public void Unequip(Item itemToUnequip)
@@ -294,15 +377,26 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         Inventory.Add(itemToUnequip);
         Equipment.Remove(itemToUnequip);
         SubItemBonus(itemToUnequip);
-        if (itemToUnequip.GetType() == typeof(Weapon) && !Equipment.Contains(itemToUnequip))
+        if (itemToUnequip.GetType() == typeof(Weapon))
         {
             SubWeaponAttack((Weapon)itemToUnequip);
+            if (Equipment.Any(i => i.GetType() == typeof(Weapon)))
+            {
+                Item item = Equipment.Find(i => i.GetType() == typeof(Weapon));
+                AddWeaponAttack((Weapon)item);
+            }
         }
 
         if (inventoryPanel.activeSelf)
         {
             CloseInventory();
             ShowInventory();
+        }
+
+        if (equipmentPanel.activeSelf)
+        {
+            CloseEquipment();
+            ShowEquipment();
         }
     }
 

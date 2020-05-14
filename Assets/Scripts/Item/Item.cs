@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 [CreateAssetMenu(menuName = "Items/Item")]
 public abstract class Item : ScriptableObject
@@ -20,8 +21,8 @@ public abstract class Item : ScriptableObject
 
     public statBonus StatBonus;
     public int bonus;
-    [Range(0, 2)]
-    public int nbOfHands;
+    public List<int> itemSlot;
+    public int additionalSlot;
     public GameObject Dropable;
     public string itemDescription;
 }
