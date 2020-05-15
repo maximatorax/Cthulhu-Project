@@ -200,12 +200,28 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                             else if (item.GetType() != typeof(Weapon) && equippedItem.additionalSlot != 0 &&
                                      takenSlots[equippedItem.additionalSlot] != null)
                             {
-                                    itemWithSameSlot.Add(takenSlots[equippedItem.additionalSlot]);
+                                if (takenSlots[equippedItemSlot] == takenSlots[equippedItem.additionalSlot])
+                                {
+                                    Item toUnequip = takenSlots[equippedItem.additionalSlot];
+                                    Unequip(toUnequip);
+                                    takenSlots[equippedItem.additionalSlot] = item;
+                                    Equip(item);
+                                }
+                                else
+                                {
+                                    itemWithSameSlot.Add(takenSlots.ToList()[equippedItem.additionalSlot]);
+                                }
                             }
                             else if (item.GetType() == typeof(Weapon) &&
                                      takenSlots.ToList().IndexOf(equippedItem) != itemSlot)
                             {
                                 continue;
+                            }
+                            else if (item.GetType() == typeof(Weapon) && takenSlots[equippedItemSlot] ==
+                                takenSlots[equippedItem.additionalSlot])
+                            {
+                                itemWithSameSlot.Add(equippedItem);
+                                itemWithSameSlot.Add(equippedItem);
                             }
                             else
                             {
@@ -249,7 +265,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
 
     public void UnequipButton(Item item, GameObject button)
     {
-        if (item.GetType() == typeof(Weapon) && takenSlots[item.additionalSlot] != null)
+        if (item.GetType() == typeof(Weapon) && takenSlots[item.additionalSlot] != null && item.additionalSlot !=0 && takenSlots[item.additionalSlot].GetType() == typeof(Weapon))
         {
             foreach (int slot in item.itemSlot)
             {
