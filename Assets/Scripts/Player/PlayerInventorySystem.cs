@@ -202,6 +202,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                             {
                                     itemWithSameSlot.Add(takenSlots[equippedItem.additionalSlot]);
                             }
+                            else if (item.GetType() == typeof(Weapon) &&
+                                     takenSlots.ToList().IndexOf(equippedItem) != itemSlot)
+                            {
+                                continue;
+                            }
                             else
                             {
                                 itemWithSameSlot.Add(equippedItem);
