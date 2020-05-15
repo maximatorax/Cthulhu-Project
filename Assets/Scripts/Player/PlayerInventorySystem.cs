@@ -177,16 +177,17 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                     foreach (int equippedItemSlot in equippedItem.itemSlot)
                     {
                         
-                        if (takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem) && takenSlots.ToList().IndexOf(equippedItem) == itemSlot ||
-                            takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem) && takenSlots.ToList().LastIndexOf(equippedItem) == itemSlot)
+                        if (takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem))
                         {
-                            if (item.GetType() == typeof(Weapon) && item.additionalSlot != 0)
+                            if (item.GetType() == typeof(Weapon) && item.additionalSlot != 0 && takenSlots.ToList().IndexOf(equippedItem) == itemSlot ||
+                                item.GetType() == typeof(Weapon) && item.additionalSlot != 0 && takenSlots.ToList().LastIndexOf(equippedItem) == itemSlot)
                             {
                                 if (takenSlots[item.additionalSlot] == null)
                                 {
                                     takenSlots[item.additionalSlot] = item;
                                 }
-                                else if(takenSlots[item.additionalSlot].GetType() != typeof(Weapon))
+                                else if(takenSlots[item.additionalSlot].GetType() != typeof(Weapon) && takenSlots.ToList().IndexOf(equippedItem) == itemSlot ||
+                                item.GetType() == typeof(Weapon) && item.additionalSlot != 0 && takenSlots.ToList().LastIndexOf(equippedItem) == itemSlot)
                                 {
                                     itemWithSameSlot.Add(takenSlots[item.additionalSlot]);
                                     takenSlots[item.additionalSlot] = item;
@@ -195,6 +196,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                                 {
                                     itemWithSameSlot.Add(equippedItem);
                                 }
+                            }
+                            else if (item.GetType() != typeof(Weapon) && equippedItem.additionalSlot != 0 &&
+                                     takenSlots[equippedItem.additionalSlot] != null)
+                            {
+                                    itemWithSameSlot.Add(takenSlots[equippedItem.additionalSlot]);
                             }
                             else
                             {
