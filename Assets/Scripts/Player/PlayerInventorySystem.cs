@@ -177,12 +177,18 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                     foreach (int equippedItemSlot in equippedItem.itemSlot)
                     {
                         
-                        if (takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem))
+                        if (takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem) && takenSlots.ToList().IndexOf(equippedItem) == itemSlot ||
+                            takenSlots[itemSlot] != null && !itemWithSameSlot.Contains(equippedItem) && takenSlots.ToList().LastIndexOf(equippedItem) == itemSlot)
                         {
                             if (item.GetType() == typeof(Weapon) && item.additionalSlot != 0)
                             {
                                 if (takenSlots[item.additionalSlot] == null)
                                 {
+                                    takenSlots[item.additionalSlot] = item;
+                                }
+                                else if(takenSlots[item.additionalSlot].GetType() != typeof(Weapon))
+                                {
+                                    itemWithSameSlot.Add(takenSlots[item.additionalSlot]);
                                     takenSlots[item.additionalSlot] = item;
                                 }
                                 else
