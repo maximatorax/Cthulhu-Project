@@ -1226,6 +1226,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5821b71fdf7ae5a4899004286f4b280a,
         type: 2}
+    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
+        type: 3}
+      propertyPath: Inventory.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
 --- !u!1 &3989251873153377586 stripped
@@ -1261,6 +1267,18 @@ PrefabInstance:
       propertyPath: ShopMoneyText
       value: 
       objectReference: {fileID: 1291403146}
+    - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
+        type: 3}
+      propertyPath: shopInventory.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
+        type: 2}
+    - target: {fileID: 4103286665918227269, guid: b450cd0a38776b84c93a58457dc6e505,
+        type: 3}
+      propertyPath: shopInventory.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3745804a2f137ca48ac33959a6d573e7,
+        type: 2}
     - target: {fileID: 4201018802865134228, guid: b450cd0a38776b84c93a58457dc6e505,
         type: 3}
       propertyPath: m_Name

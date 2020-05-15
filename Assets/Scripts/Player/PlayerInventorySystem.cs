@@ -223,6 +223,10 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                                 itemWithSameSlot.Add(equippedItem);
                                 itemWithSameSlot.Add(equippedItem);
                             }
+                            else if (itemSlot != equippedItemSlot)
+                            {
+                                continue;
+                            }
                             else
                             {
                                 itemWithSameSlot.Add(equippedItem);
