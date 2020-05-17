@@ -1182,7 +1182,7 @@ PrefabInstance:
     - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
         type: 3}
       propertyPath: Inventory.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
         type: 3}
@@ -1231,6 +1231,12 @@ PrefabInstance:
       propertyPath: Inventory.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: 4d4c1bc83548326418b35fdf8aebcce4,
+        type: 2}
+    - target: {fileID: 4123051032663481532, guid: 0eb0314ffaed54b4194856287e7d9b27,
+        type: 3}
+      propertyPath: Inventory.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 63a7093fb86138c4da79e591b65b7001,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}

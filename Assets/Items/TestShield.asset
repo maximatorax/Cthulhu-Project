@@ -17,7 +17,7 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: ba301a79b4406f245880e20f2e45e6f6, type: 3}
   StatBonus: 0
   bonus: 0
-  itemSlot: 010000000400000007000000
+  itemSlot: 01000000
   additionalSlot: 0
   Dropable: {fileID: 7665444513003747710, guid: 1d34f3c8e3f031045a640c990caa2ed3,
     type: 3}

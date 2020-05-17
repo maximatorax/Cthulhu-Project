@@ -198,7 +198,7 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                                 }
                             }
                             else if (item.GetType() != typeof(Weapon) && equippedItem.additionalSlot != 0 &&
-                                     takenSlots[equippedItem.additionalSlot] != null)
+                                     takenSlots[equippedItem.additionalSlot] != null && !itemWithSameSlot.Contains(takenSlots[equippedItem.additionalSlot]))
                             {
                                 if (takenSlots[equippedItemSlot] == takenSlots[equippedItem.additionalSlot])
                                 {
@@ -221,6 +221,12 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                                 takenSlots[equippedItem.additionalSlot])
                             {
                                 itemWithSameSlot.Add(equippedItem);
+                                itemWithSameSlot.Add(equippedItem);
+                            }
+                            else if (item.GetType() == typeof(Weapon) &&
+                                     takenSlots[equippedItem.additionalSlot] == equippedItem &&
+                                     equippedItem.additionalSlot == itemSlot)
+                            {
                                 itemWithSameSlot.Add(equippedItem);
                             }
                             else if (itemSlot != equippedItemSlot)
@@ -248,7 +254,17 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             for (int x = 0; x < takenSlots.Length; x++)
             {
-                if (takenSlots.Contains(equippedItem))
+                if (equippedItem.GetType() == typeof(Weapon) && equippedItem.itemSlot.Count == 1 && takenSlots[equippedItem.itemSlot[0]] == takenSlots[equippedItem.additionalSlot] && takenSlots[x] != null && takenSlots[x] != item)
+                {
+                    takenSlots[takenSlots.ToList().IndexOf(equippedItem)] = null;
+                    break;
+                }
+
+                else if (equippedItem == item)
+                {
+
+                }
+                else if (takenSlots.Contains(equippedItem))
                 {
                     takenSlots[takenSlots.ToList().IndexOf(equippedItem)] = null;
                 }
@@ -277,6 +293,11 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
                 {
                     Unequip(item);
                     Destroy(button);
+                    takenSlots[slot] = null;
+                }
+                else if (takenSlots[item.additionalSlot] == item && item.additionalSlot != 0)
+                {
+                    Unequip(item);
                     takenSlots[item.additionalSlot] = null;
                 }
             }
