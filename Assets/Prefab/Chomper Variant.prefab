@@ -518,7 +518,7 @@ MonoBehaviour:
   maxHealth: 100
   isInvincible: 0
   invincibleTime: 0
-  expToGive: 100
+  expToGive: 50
   elementResistance: 1
   elementWeakness: 2
   typeResistance: 0
