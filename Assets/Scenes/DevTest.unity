@@ -1030,6 +1030,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
+      propertyPath: attackList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
       propertyPath: attackLayoutGroup
       value: 
       objectReference: {fileID: 515243426}
@@ -1061,6 +1065,16 @@ PrefabInstance:
       propertyPath: StaminaBar
       value: 
       objectReference: {fileID: 1521061811}
+    - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
+      propertyPath: attackList.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0d1c5ca3dd58862438fdf403b7d09efd,
+        type: 2}
+    - target: {fileID: 1461847352, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
+      propertyPath: attackList.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e211cbc4618d164b9685a72e8a9760e,
+        type: 2}
     - target: {fileID: 1461847353, guid: 0eb0314ffaed54b4194856287e7d9b27, type: 3}
       propertyPath: HealthBar
       value: 
@@ -3186,6 +3200,11 @@ PrefabInstance:
       propertyPath: Player
       value: 
       objectReference: {fileID: 3989251873153377586}
+    - target: {fileID: 6364071982356673741, guid: bca133d3ede79894bb1c02de2a778747,
+        type: 3}
+      propertyPath: nbOfEnemyWanted
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6364071982356673742, guid: bca133d3ede79894bb1c02de2a778747,
         type: 3}
       propertyPath: m_LocalPosition.x
