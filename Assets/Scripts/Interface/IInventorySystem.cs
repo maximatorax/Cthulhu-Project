@@ -8,6 +8,8 @@ public interface IInventorySystem
     void CloseInventory();
     void AddToInventory(Item itemToAdd);
     void DeleteFromInventory(Item itemToDelete);
-    void PickUp();
-    void Drop();
+    void PickUp(RaycastHit hit);
+    void Drop(Item itemToDrop);
+    void Buy(Item itemToBuy);
+    void Sell(Item itemToSell);
 }

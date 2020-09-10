@@ -9,13 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 253ce95192622f14cbfe1b36ee436b22, type: 3}
   m_Name: TestWeapon
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  value: 0
+  value: 50
   weight: 0
   itemIcon: {fileID: 21300000, guid: c455394e36f20a948b43a10aaf080d14, type: 3}
   StatBonus: 0
   bonus: 0
-  nbOfHands: 1
+  itemSlot: 00000000
+  additionalSlot: 1
+  Dropable: {fileID: 9047702156173094442, guid: 9ef1bf021a9510442af2556185872bd7,
+    type: 3}
+  itemDescription: 
   weaponAttack: {fileID: 11400000, guid: b3f05bb1c2e626948993750def67d660, type: 2}

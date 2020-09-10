@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
@@ -12,7 +13,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
     private PlayerStatsSystem playerStatsSystem;
     private PlayerHealthSystem playerHealthSystem;
     private PlayerInventorySystem playerInventorySystem;
-    private bool started = false;
 
     public List<Attack> attackList;
     public LayerMask attackLayer;
@@ -44,7 +44,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Start()
     {
-        started = true;
         playerAnimator = gameObject.GetComponent<Animator>();
         Player = gameObject.GetComponent<PlayerController>();
         charController = gameObject.GetComponent<CharacterController>();
@@ -74,9 +73,9 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
     void Update()
     {
-        if(playerStatsSystem.leveling)return;
+        if(playerStatsSystem.leveling || playerInventorySystem.inventoryPanel.activeSelf || playerInventorySystem.equipmentPanel.activeSelf)return;
 
-        if (stamina < maxStamina && !isRegenStamina)
+        if (stamina < maxStamina && !isRegenStamina && !Player.isSprinting)
         {
             StartCoroutine(staminaRegen());
         }
@@ -204,25 +203,33 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
 
         if (attack.type == global::Attack.attackType.Physical)
         {
-            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Strength) * returnedDamage);
+            returnedDamage += (int)(((1.0f / 10.0f) * playerStatsSystem.Strength) * returnedDamage);
         }
         else if (attack.type == global::Attack.attackType.Magical)
         {
-            returnedDamage = returnedDamage + (int)(((1.0f / 10.0f) * playerStatsSystem.Intelligence) * returnedDamage);
+            returnedDamage += (int)(((1.0f / 10.0f) * playerStatsSystem.Intelligence) * returnedDamage);
         }
         else if (attack.type == global::Attack.attackType.Special)
         {
-            returnedDamage = returnedDamage * ((playerStatsSystem.Strength + playerStatsSystem.Intelligence) * returnedDamage);
+            returnedDamage *= ((playerStatsSystem.Strength + playerStatsSystem.Intelligence) * returnedDamage);
         }
 
         if (attack.element == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementResistance)
         {
-            returnedDamage = returnedDamage / 2;
+            returnedDamage /= 2;
         }
-        else if (attack.element ==
-                 enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementWeakness)
+        else if (attack.element == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().elementWeakness)
         {
-            returnedDamage = returnedDamage * 2;
+            returnedDamage *= 2;
+        }
+
+        if (attack.type == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().typeResistance)
+        {
+            returnedDamage /= 2;
+        }
+        else if (attack.type == enemyHit.collider.gameObject.GetComponentInParent<EnemyHealthSystem>().typeWeakness)
+        {
+            returnedDamage *= 2;
         }
 
         return returnedDamage;
@@ -256,11 +263,17 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         yield return new WaitForSeconds(2.0f);
         while (stamina < maxStamina)
         {
-            stamina += (int)(((float)staminaRegenRate/100)*(float)maxStamina);
+            if (Player.isSprinting)
+            {
+                isRegenStamina = false;
+                yield break;
+            }
+            stamina += (int) (((float) staminaRegenRate / 100) * (float) maxStamina);
             if (stamina > maxStamina)
             {
                 stamina = maxStamina;
             }
+
             yield return new WaitForSeconds(staminaRegenTime);
         }
 
@@ -303,11 +316,6 @@ public class PlayerAttackSystem : MonoBehaviour, IAttackSystem
         }
     }
 
-    void OnDrawGizmos()
-    {
-        if(!started)return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + charController.center + Vector3.up * -charController.height * 0.5f, transform.forward * selectedAttack.range);
-        Gizmos.DrawRay((transform.position + charController.center + Vector3.up * -charController.height * 0.5f) + Vector3.up * charController.height, transform.forward * selectedAttack.range);
-    }
+
+
 }
