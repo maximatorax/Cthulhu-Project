@@ -254,10 +254,9 @@ public class PlayerInventorySystem : MonoBehaviour, IInventorySystem
         {
             for (int x = 0; x < takenSlots.Length; x++)
             {
-                if (equippedItem.GetType() == typeof(Weapon) && equippedItem.itemSlot.Count == 1 && takenSlots[equippedItem.itemSlot[0]] == takenSlots[equippedItem.additionalSlot] && takenSlots[x] != null && takenSlots[x] != item)
+                if (equippedItem.GetType() == typeof(Weapon) && equippedItem.itemSlot.Count == 1 && takenSlots[equippedItem.itemSlot[0]] == takenSlots[equippedItem.additionalSlot] && takenSlots[x] != null)
                 {
-                    takenSlots[takenSlots.ToList().IndexOf(equippedItem)] = null;
-                    break;
+                    takenSlots.ToList()[x] = null;
                 }
 
                 else if (equippedItem == item)
