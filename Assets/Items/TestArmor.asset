@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca9b8fac4ff418048b081af8b250bc77, type: 3}
+  m_Name: TestArmor
+  m_EditorClassIdentifier: Assembly-CSharp::Armor
+  value: 100
+  weight: 0
+  itemIcon: {fileID: 21300000, guid: 512433976493a674cb3154da39d7a511, type: 3}
+  StatBonus: 0
+  bonus: 0
+  itemSlot: 04000000
+  additionalSlot: 0
+  Dropable: {fileID: 7665444513003747710, guid: 1d34f3c8e3f031045a640c990caa2ed3,
+    type: 3}
+  itemDescription: 
+  ElementResistence: 0
+  TypeResistence: 0
+  elementResistBonus: 0
+  typeResistBonus: 0
+  damageResistBonus: 0
